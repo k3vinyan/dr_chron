@@ -14,7 +14,16 @@ class PatientsController < ApplicationController
         "Authorization" => "Bearer #{current_user.access_token}",
     })
 
-    fail
+    redirect_to root_path
+  end
+
+  def index
+    patients_data = HTTParty.get('https://drchrono.com/api/patients',
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })
+    
+    @patients = patients_data['results']
   end
 
   private

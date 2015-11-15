@@ -1,0 +1,26 @@
+<tr>
+  <td><img class="avatar" src="<%= patient['patient_photo'] %>"/></td>
+  <td><%= patient['chart_id'] %></td>
+  <td><%= patient['first_name'] %> <%= patient['last_name'] %></td>
+  <td>
+    <% if patient['email'].blank? %>
+      <a href="#">Add</a>
+    <% else %>
+      <a href="#">Email</a>
+    <% end %>
+  </td>
+  <td><%= patient['date_of_birth'] %></td>
+  <td><%= patient['gender'] %></td>
+  <td><%= patient['date_of_last_appointment'] %></td>
+  <td>
+    <% if patient['date_of_next_appointment'].blank? %>
+      <a href="#">Schedule!</a>
+    <% else %>
+      <%= patient['date_of_next_appointment'] %>
+    <% end %>
+  </td>
+</tr>
+
+
+<!-- Format date of birth -->
+<!-- Add link for scheduling an appt -->

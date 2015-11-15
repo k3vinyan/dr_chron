@@ -1,13 +1,4 @@
 <% if @user.is_doctor? %>
   <p>Doctor ID: <%= user.doctor_id %></p>
-  <%= form_tag('/patients') do %>
-    <%= text_field_tag 'first_name', nil, placeholder: 'first name', required: true %><br>
-    <%= text_field_tag 'middle_name', nil, placeholder: 'middle name' %><br>
-    <%= text_field_tag 'last_name', nil, placeholder: 'last name' %><br>
-    <%= select_tag 'gender', options_for_select(['Male', 'Female', 'Other']) %><br>
-    <label>Date Of Birth</label><br>
-    <%= select_date Date.today, start_year: 1910, end_year: Time.now.year %><br>
-    <label>Address</label><br>
-    <%= submit_tag 'create new patient' %>
-  <% end %>
+  <%= link_to 'Patients', patients_path %>
 <% end %>
