@@ -2,19 +2,18 @@
   <td><img class="avatar" src="<%= patient['patient_photo'] %>"/></td>
   <td><%= patient['chart_id'] %></td>
   <td><%= patient['first_name'] %> <%= patient['last_name'] %></td>
-  <td>
-    <% if patient['email'].blank? %>
-      <a href="#">Add</a>
-    <% else %>
-      <a href="#">Email</a>
-    <% end %>
-  </td>
   <td><%= patient['date_of_birth'] %></td>
   <td><%= patient['gender'] %></td>
   <td><%= patient['date_of_last_appointment'] %></td>
   <td>
     <% if patient['date_of_next_appointment'].blank? %>
-      <a href="#">Schedule!</a>
+      <a href="#" onclick="appointmentMenu()" class="scheduleBtn">Schedule!</a>
+      <div class="appointment" hidden>
+        <%= form_tag('') do %>
+          <%= select_date Date.today %>
+          <%= submit_tag 'schedule', onclick:"scheduleAppt(#{patient.to_json})" %>
+        <% end %>
+      </div>
     <% else %>
       <%= patient['date_of_next_appointment'] %>
     <% end %>
