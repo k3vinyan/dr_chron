@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   # session
   delete 'signout' => 'auth#signout'
 
+  # crud
+  resources :patients, only: [:create]
   # misc
   root 'welcome#index'
 

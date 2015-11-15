@@ -1,0 +1,9 @@
+<% if @user.is_doctor? %>
+  <p>Doctor ID: <%= user.doctor_id %></p>
+  <p><%= link_to 'Add Patient', patients_path, :method => :post %></p>
+  <%= form_tag('/patients') do %>
+    <%= text_field_tag 'gender', nil, placeholder: 'gender' %>
+    <%= text_field_tag 'date_of_birth', nil, placeholder: 'date of birth' %>
+    <%= submit_tag 'create new patient' %>
+  <% end %>
+<% end %>
