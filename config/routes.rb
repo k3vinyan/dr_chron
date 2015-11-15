@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
 
-  # auth routes
+  # auth
   get 'authenticate' => 'auth#authenticate'
   get 'authorize' => 'auth#authorize'
 
+  # session
+  delete 'signout' => 'auth#signout'
+
+  # misc
   root 'welcome#index'
 
 

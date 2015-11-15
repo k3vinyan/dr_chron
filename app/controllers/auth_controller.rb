@@ -4,12 +4,20 @@ class AuthController < ApplicationController
   end
 
   def authorize
-    auth_endpoint = post_token_code
-    user_endpoint = get_auth_token(auth_endpoint['access_token'])
+    auth_data = post_token_code
+    user_data = get_auth_token(auth_data['access_token'])
 
-    find_or_create_user(auth_endpoint, user_endpoint)
-    fail
+    find_or_create_user(auth_data, user_data)
+
+    session[:user_id] = @user.id
+    redirect_to root_path
   end
+
+  def signout
+    session[:user_id] = nil
+    redirect_to root_path
+  end
+
 
   private
     def post_token_code
@@ -30,16 +38,16 @@ class AuthController < ApplicationController
       })
     end
 
-    def find_or_create_user auth_endpoint, user_endpoint
-      @user = User.where(username: user_endpoint['username']).first
+    def find_or_create_user auth_data, user_data
+      @user = User.where(username: user_data['username']).first
 
       unless @user
         @user = User.new(
-          username: user_endpoint['username'],
-          access_token: auth_endpoint['access_token'],
-          refresh_token: auth_endpoint['refresh_token'])
-        if user_endpoint['is_doctor']
-          @user.doctor_id = user_endpoint['doctor']
+          username: user_data['username'],
+          access_token: auth_data['access_token'],
+          refresh_token: auth_data['refresh_token'])
+        if user_data['is_doctor']
+          @user.doctor_id = user_data['doctor']
         end
         @user.save
       end  
