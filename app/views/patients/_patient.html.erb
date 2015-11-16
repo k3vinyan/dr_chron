@@ -7,13 +7,7 @@
   <td><%= patient['date_of_last_appointment'] %></td>
   <td>
     <% if patient['date_of_next_appointment'].blank? %>
-      <a href="#" onclick="appointmentMenu()" class="scheduleBtn">Schedule!</a>
-      <div class="appointment" hidden>
-        <%= form_tag('') do %>
-          <%= select_date Date.today %>
-          <%= submit_tag 'schedule', onclick:"scheduleAppt(#{patient.to_json})" %>
-        <% end %>
-      </div>
+      <%= link_to 'Schedule Appt', new_appointment_path(:patient_id => patient['id']) %>
     <% else %>
       <%= patient['date_of_next_appointment'] %>
     <% end %>

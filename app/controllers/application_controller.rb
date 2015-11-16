@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
   def current_user
     @user || @user = User.where(id: session[:user_id]).first
   end
+
+  def format_date date
+    "#{date['year']}-#{date['month']}-#{date['day']}"
+  end
 end
