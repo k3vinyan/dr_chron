@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   # crud
   resources :patients, only: [:create, :index]
+  resources :appointments, only: [:index]
+
   # misc
   root 'welcome#index'
 

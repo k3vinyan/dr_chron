@@ -1,0 +1,11 @@
+<table>
+  <% @appointments.each do |appointment| %>
+    <tr>
+      <th>Office</th>
+      <th>Room</th>
+      <th>Reason</th>
+      <% fail %>
+    <tr>
+    <tr><%= render partial: 'appointment', locals: {appointment: appointment} %></tr>
+  <% end %>
+</table>
