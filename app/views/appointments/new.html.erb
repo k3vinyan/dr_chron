@@ -1,6 +1,7 @@
 <%= form_tag("/appointments") do %>
-  <%= number_field_tag "duration", nil, placeholder: "duration" %>
-  <%= select_date Time.now %>
+  <%= select_date Time.now, order: [:month, :day] %>
+  <%= time_select "time", Time.now %>
   <%= hidden_field_tag "patient_id", nil, value: params["patient_id"] %>
+  <%= number_field_tag "duration", nil, placeholder: "duration" %>
   <%= submit_tag "Schedule" %>
 <% end %>

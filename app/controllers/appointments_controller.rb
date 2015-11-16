@@ -13,12 +13,13 @@ class AppointmentsController < ApplicationController
         :doctor => current_user.doctor_id,
         :duration => params["duration"],
         :patient => params["patient_id"],
-        :scheduled_time => format_date(params["date"])
+        # fix this
+        :scheduled_time => format_date(params["date"], params["time"].first[0]),
       },
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
       })
-    fail
+   fail
   end
 
   def destroy
@@ -35,5 +36,9 @@ class AppointmentsController < ApplicationController
         :headers => {
           "Authorization" => "Bearer #{current_user.access_token}",
       })
+    end
+
+    def format_date date, time
+      "#{date['year']}-#{date['month']}-#{date['day']} #{time.match(/ (\d{2}:\d{2}:\d{2}) /)[1]}"
     end
 end
