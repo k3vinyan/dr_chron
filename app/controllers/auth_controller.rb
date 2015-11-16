@@ -44,12 +44,14 @@ class AuthController < ApplicationController
       unless @user
         @user = User.new(
           username: user_data['username'],
-          access_token: auth_data['access_token'],
+          # not currently utilizing this
           refresh_token: auth_data['refresh_token'])
         if user_data['is_doctor']
           @user.doctor_id = user_data['doctor']
         end
-        @user.save
       end  
+
+      @user.access_token = auth_data['access_token']
+      @user.save
     end
 end
