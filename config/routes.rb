@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   # crud
   resources :patients, only: [:create, :index]
-  resources :appointments, only: [:index]
+  resources :appointments, only: [:index, :destroy]
 
   # misc
   root 'welcome#index'
