@@ -3,5 +3,7 @@
   <%= time_select "time", Time.now %>
   <%= hidden_field_tag "patient_id", nil, value: params["patient_id"] %>
   <%= number_field_tag "duration", nil, placeholder: "duration" %>
+  <%= select_tag "office", options_for_select(@office_names) %>
+  <%= select_tag "exam_room", options_for_select(@exam_rooms) %>
   <%= submit_tag "Schedule" %>
 <% end %>

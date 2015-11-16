@@ -5,6 +5,14 @@ class AppointmentsController < ApplicationController
   end
 
   def new
+    offices_data = HTTParty.get("https://drchrono.com/api/offices",
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+      })
+
+    @offices = offices_data['results']
+    @office_names = @offices.map {|office| "#{office['name']} : #{office['id']}"}
+    @exam_rooms = @offices[0]["exam_rooms"].map{|room| room["index"]}
   end
 
   def create
@@ -13,13 +21,14 @@ class AppointmentsController < ApplicationController
         :doctor => current_user.doctor_id,
         :duration => params["duration"],
         :patient => params["patient_id"],
+        :office => params["office"].split(" ")[-1].to_i,
+        :exam_room => params["exam_room"],
         # fix this
         :scheduled_time => format_date(params["date"], params["time"].first[0]),
       },
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
       })
-   fail
   end
 
   def destroy
