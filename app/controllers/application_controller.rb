@@ -10,4 +10,5 @@ class ApplicationController < ActionController::Base
   def format_date date
     "#{date['year']}-#{date['month']}-#{date['day']}"
   end
+
 end
