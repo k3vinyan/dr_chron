@@ -25,11 +25,11 @@ class AppointmentsController < ApplicationController
         :exam_room => params["exam_room"],
         :reason => params["reason"],
         # fix this
-        :scheduled_time => format_date(params["date"], params["time"].first[0]),
+        :scheduled_time => format_date(params["date"], twenty_four_time(format_time), params["minute"]),
       },
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
-      })
+    })
 
     redirect_to appointments_path
   end
@@ -50,10 +50,43 @@ class AppointmentsController < ApplicationController
       })
     end
 
-    def format_date date, time
-      "#{date['year']}-#{date['month']}-#{date['day']} #{time.match(/ (\d{2}:\d{2}:\d{2}) /)[1]}"
+    def format_date date, hour, minute 
+      hour = hour.to_s.length < 2 ? "0" + hour.to_s : hour.to_s
+      stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
     end
 
+    def format_time
+      am_pm = params[:am_pm]
+      hour = params[:hour].to_i
+      if am_pm == "AM" && hour < 4
+        {hour: hour + 8, am_pm: "AM"}
+      elsif am_pm == "AM" && hour < 5
+        {hour: hour + 8, am_pm: "PM"}
+      elsif am_pm == "AM" && hour == 12
+        {hour: hour - 4, am_pm: "AM"}
+      elsif am_pm == "AM" && hour >= 5
+        {hour: hour - 4, am_pm: "PM"}
+      elsif am_pm == "PM" && hour == 12
+        {hour: hour - 4, am_pm: "PM"}
+      elsif am_pm == "PM" && hour < 4
+        {hour: hour + 8, am_pm: "PM"}
+      else
+        {hour: hour - 4, am_pm: "AM"}
+      end
+    end
+
+    def twenty_four_time time
+      if time[:am_pm] == "AM" && time[:hour] == 12
+        return 0;
+      elsif time[:am_pm] == "PM" && time[:hour] == 12
+        return 12;
+      elsif time[:am_pm] == "PM"
+        return time[:hour] + 12
+      else
+        return time[:hour]
+      end
+    end
+    
     def date_range
       # possibly turn this into a slider UI
       start = Time.now.to_s.split(" ")[0]

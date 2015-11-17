@@ -1,18 +1,25 @@
+/*
 var $hours = $("#timeSelect select").first();
 var $amPm = $("#am_pm")
 var pstTime = hoursToPST($hours.val());
 
 $hours.val(pstTime.hour);
 $amPm.val(pstTime.amPm);
+*/
 // CHANGE RANGE OF STUFF
 
+/*
 $("#newAppointment").on("submit", function (event) {
-  var $hours = $("#timeSelect select").first();
+  var $hours = $("#hours");
   var $amPm = $("#am_pm");
 
   var utcTime = backToUTC($hours.val(), $amPm.val());
-  debugger;
+  var hour = amPmToMilitary(utcTime.hour, utcTime.amPm);
+
+  $hours.val(hour);
 });
+*/
+
 
 function hoursToPST(hour) {
   var amPm = "AM";
@@ -55,6 +62,20 @@ function backToUTC(hour, amPm) {
   }
 }
 
+function amPmToMilitary(hour, amPm) {
+  if (amPm === "AM" && hour === 12) {
+    return 0;
+  } else if (amPm === "PM" && hour === 12) {
+    return 12;
+  } else if (amPm === "PM") {
+    return hour + 12;
+  } else {
+    return hour;
+  }
+}
+
+
+/*
 var hourOptions = [1,2,3,4,5,6,7,8,9,10,11,12];
 var amPms = ["AM","PM"];
 amPms.forEach(function (amPm) {
@@ -62,3 +83,4 @@ amPms.forEach(function (amPm) {
     console.log(hour.toString()+" "+amPm, backToUTC(hour, amPm));
   });
 });
+*/

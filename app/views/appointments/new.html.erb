@@ -2,7 +2,8 @@
   <%= hidden_field_tag "patient_id", nil, value: params["patient_id"] %>
   <%= select_date Time.now, order: [:month, :day] %>
   <div id="timeSelect">
-    <%= time_select "time", formatted_time %>
+    <%= select_tag "hour", options_for_select((1..12).to_a) %>
+    <%= select_tag "minute", options_for_select(["00","15","30","45"]) %>
     <%= select_tag "am_pm", options_for_select(["AM","PM"]) %>
   </div>
   <%= number_field_tag "duration", nil, placeholder: "duration" %>
