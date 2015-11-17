@@ -23,12 +23,15 @@ class AppointmentsController < ApplicationController
         :patient => params["patient_id"],
         :office => params["office"].split(" ")[-1].to_i,
         :exam_room => params["exam_room"],
+        :reason => params["reason"],
         # fix this
         :scheduled_time => format_date(params["date"], params["time"].first[0]),
       },
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
       })
+
+    redirect_to appointments_path
   end
 
   def destroy
@@ -41,7 +44,7 @@ class AppointmentsController < ApplicationController
 
   private
     def get_appointments
-      HTTParty.get("https://drchrono.com/api/appointments?date=#{Time.now.year}",
+      HTTParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}",
         :headers => {
           "Authorization" => "Bearer #{current_user.access_token}",
       })
@@ -49,5 +52,12 @@ class AppointmentsController < ApplicationController
 
     def format_date date, time
       "#{date['year']}-#{date['month']}-#{date['day']} #{time.match(/ (\d{2}:\d{2}:\d{2}) /)[1]}"
+    end
+
+    def date_range
+      # possibly turn this into a slider UI
+      start = Time.now.to_s.split(" ")[0]
+      stop = (Time.now + 189 * 86400).to_s.split(" ")[0]
+      "#{start}/#{stop}"
     end
 end
