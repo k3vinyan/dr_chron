@@ -24,6 +24,9 @@ class AppointmentsController < ApplicationController
       params["patient_id"] = patient["id"]
     end
 
+    time = twenty_four_time({hour: params["hour"].to_i, am_pm: params["am_pm"]})
+    date = format_date(params["date"], time, params["minute"])
+
     response = HTTParty.post("https://drchrono.com/api/appointments",
       :body => {
         :doctor => current_user.doctor_id,
@@ -32,13 +35,11 @@ class AppointmentsController < ApplicationController
         :office => params["office"].split(" ")[-1].to_i,
         :exam_room => params["exam_room"],
         :reason => params["reason"],
-        # fix this SHIT
-        :scheduled_time => format_date(params["date"], twenty_four_time({hour: params["hour"].to_i, am_pm: params["am_pm"]}), params["minute"]),
+        :scheduled_time => date
       },
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
-    fail
 
     redirect_to appointments_path
   end

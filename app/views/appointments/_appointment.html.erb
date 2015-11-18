@@ -1,10 +1,9 @@
-
 <% patient = appointment["patient_info"] %>
-<td><img src="<%= patient["patient_photo"] %>" class="avatar" /></td>
-<td><%= appointment["office"] %></td>
-<td><%= appointment["exam_room"] %></td>
+<td><img src="<%= patient["patient_photo"] %>" class="avatar" /><br>
+<%= patient["first_name"] %></td>
 <td><%= appointment["reason"] %></td>
 <td><%= pst_format(appointment["scheduled_time"]) %></td>
 <td><%= appointment["duration"] %></td>
+<td><%= appointment["office"] %></td>
+<td><%= appointment["exam_room"] %></td>
 <td><%= link_to "Cancel", appointment_path(appointment["id"]), :method => :delete %></td>
-
