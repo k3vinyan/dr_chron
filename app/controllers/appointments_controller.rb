@@ -24,8 +24,8 @@ class AppointmentsController < ApplicationController
         :office => params["office"].split(" ")[-1].to_i,
         :exam_room => params["exam_room"],
         :reason => params["reason"],
-        # fix this
-        :scheduled_time => format_date(params["date"], twenty_four_time(format_time), params["minute"]),
+        # fix this SHIT
+        :scheduled_time => format_date(params["date"], twenty_four_time({hour: params["hour"].to_i, am_pm: params["am_pm"]}), params["minute"]),
       },
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
@@ -55,25 +55,6 @@ class AppointmentsController < ApplicationController
       stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
     end
 
-    def format_time
-      am_pm = params[:am_pm]
-      hour = params[:hour].to_i
-      if am_pm == "AM" && hour < 4
-        {hour: hour + 8, am_pm: "AM"}
-      elsif am_pm == "AM" && hour < 5
-        {hour: hour + 8, am_pm: "PM"}
-      elsif am_pm == "AM" && hour == 12
-        {hour: hour - 4, am_pm: "AM"}
-      elsif am_pm == "AM" && hour >= 5
-        {hour: hour - 4, am_pm: "PM"}
-      elsif am_pm == "PM" && hour == 12
-        {hour: hour - 4, am_pm: "PM"}
-      elsif am_pm == "PM" && hour < 4
-        {hour: hour + 8, am_pm: "PM"}
-      else
-        {hour: hour - 4, am_pm: "AM"}
-      end
-    end
 
     def twenty_four_time time
       if time[:am_pm] == "AM" && time[:hour] == 12
@@ -87,6 +68,7 @@ class AppointmentsController < ApplicationController
       end
     end
     
+      
     def date_range
       # possibly turn this into a slider UI
       start = Time.now.to_s.split(" ")[0]
