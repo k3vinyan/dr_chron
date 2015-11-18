@@ -2,20 +2,28 @@ class AppointmentsController < ApplicationController
   def index
     appointments_data = get_appointments
     @appointments = appointments_data['results']
+
+    @patients = get_patients 
+    @appointments.each do |appt|
+      appt["patient_info"] = @patients.find {|patient| patient["id"] == appt["patient"]}
+    end
+
+    get_offices
   end
 
   def new
-    offices_data = HTTParty.get("https://drchrono.com/api/offices",
-      :headers => {
-        "Authorization" => "Bearer #{current_user.access_token}",
-      })
-
-    @offices = offices_data['results']
-    @office_names = @offices.map {|office| "#{office['name']} : #{office['id']}"}
-    @exam_rooms = @offices[0]["exam_rooms"].map{|room| room["index"]}
+    get_offices
   end
 
   def create
+    if params["patient_id"].blank?
+      patients = get_patients
+      patient = patients.find do |patient|
+        "#{patient["first_name"]} #{patient["last_name"]}" == params["patient"]
+      end
+      params["patient_id"] = patient["id"]
+    end
+
     response = HTTParty.post("https://drchrono.com/api/appointments",
       :body => {
         :doctor => current_user.doctor_id,
@@ -30,6 +38,7 @@ class AppointmentsController < ApplicationController
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
+    fail
 
     redirect_to appointments_path
   end
@@ -50,9 +59,28 @@ class AppointmentsController < ApplicationController
       })
     end
 
+    def get_patients
+      patients_data = HTTParty.get('https://drchrono.com/api/patients',
+        :headers => {
+          "Authorization" => "Bearer #{current_user.access_token}",
+      })
+      patients_data["results"]
+    end
+
     def format_date date, hour, minute 
       hour = hour.to_s.length < 2 ? "0" + hour.to_s : hour.to_s
       stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
+    end
+
+    def get_offices
+      offices_data = HTTParty.get("https://drchrono.com/api/offices",
+        :headers => {
+          "Authorization" => "Bearer #{current_user.access_token}",
+        })
+
+      @offices = offices_data['results']
+      @office_names = @offices.map {|office| "#{office['name']} : #{office['id']}"}
+      @exam_rooms = @offices[0]["exam_rooms"].map{|room| room["index"]}
     end
 
 
