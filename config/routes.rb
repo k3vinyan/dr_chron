@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   delete 'signout' => 'auth#signout'
 
   # crud
-  resources :patients, only: [:create, :index]
+  resources :patients, only: [:create, :index, :update, :show]
   resources :appointments, only: [:index, :destroy, :new, :create]
 
   # misc
