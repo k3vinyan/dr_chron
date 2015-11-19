@@ -18,17 +18,11 @@ class PatientsController < ApplicationController
   end
 
   def index
-    patients_data = HTTParty.get('https://drchrono.com/api/patients',
-      :headers => {
-        "Authorization" => "Bearer #{current_user.access_token}",
-    })
-    
-    @patients = patients_data['results']
+    @patients = get_patients
   end
 
   private
     def format_date date
       "#{date['year']}-#{date['month']}-#{date['day']}"
     end
-
 end

@@ -3,12 +3,16 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+
   def current_user
     @user || @user = User.where(id: session[:user_id]).first
   end
 
-  def format_date date
-    "#{date['year']}-#{date['month']}-#{date['day']}"
+  def get_patients
+    patients_data = HTTParty.get('https://drchrono.com/api/patients',
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })
+    patients_data["results"]
   end
-
 end

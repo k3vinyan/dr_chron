@@ -1,21 +1,27 @@
 class AppointmentsController < ApplicationController
   def index
-    appointments_data = get_appointments
-    @appointments = appointments_data['results']
-
+    @appointments = get_appointments
     @patients = get_patients 
+
     @appointments.each do |appt|
       appt["patient_info"] = @patients.find {|patient| patient["id"] == appt["patient"]}
     end
 
-    get_offices
+    office_data = get_offices
+    @offices = office_data["offices"]
+    @office_names = office_data["office_names"]
+    @exam_rooms = office_data["exam_rooms"]
   end
 
   def new
-    get_offices
+    office_data = get_offices
+    @offices = office_data["offices"]
+    @office_names = office_data["office_names"]
+    @exam_rooms = office_data["exam_rooms"]
   end
 
   def create
+    # figure out a more efficient way to do this
     if params["patient_id"].blank?
       patients = get_patients
       patient = patients.find do |patient|
@@ -24,7 +30,7 @@ class AppointmentsController < ApplicationController
       params["patient_id"] = patient["id"]
     end
 
-    time = twenty_four_time({hour: params["hour"].to_i, am_pm: params["am_pm"]})
+    time = twenty_four_time(params["hour"].to_i, params["am_pm"])
     date = format_date(params["date"], time, params["minute"])
 
     response = HTTParty.post("https://drchrono.com/api/appointments",
@@ -54,18 +60,23 @@ class AppointmentsController < ApplicationController
 
   private
     def get_appointments
-      HTTParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}",
+      appointments = HTTParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}",
         :headers => {
           "Authorization" => "Bearer #{current_user.access_token}",
-      })
+      })["results"]
     end
 
-    def get_patients
-      patients_data = HTTParty.get('https://drchrono.com/api/patients',
+    def get_offices
+      offices = HTTParty.get("https://drchrono.com/api/offices",
         :headers => {
           "Authorization" => "Bearer #{current_user.access_token}",
-      })
-      patients_data["results"]
+      })["results"]
+      
+      {
+        "offices" => offices,
+        "office_names" => offices.map {|office| "#{office['name']} : #{office['id']}"},
+        "exam_rooms" => offices[0]["exam_rooms"].map{|room| room["index"]}
+      }
     end
 
     def format_date date, hour, minute 
@@ -73,27 +84,15 @@ class AppointmentsController < ApplicationController
       stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
     end
 
-    def get_offices
-      offices_data = HTTParty.get("https://drchrono.com/api/offices",
-        :headers => {
-          "Authorization" => "Bearer #{current_user.access_token}",
-        })
-
-      @offices = offices_data['results']
-      @office_names = @offices.map {|office| "#{office['name']} : #{office['id']}"}
-      @exam_rooms = @offices[0]["exam_rooms"].map{|room| room["index"]}
-    end
-
-
-    def twenty_four_time time
-      if time[:am_pm] == "AM" && time[:hour] == 12
+    def twenty_four_time hour, am_pm
+      if am_pm == "AM" && hour == 12
         return 0;
-      elsif time[:am_pm] == "PM" && time[:hour] == 12
+      elsif am_pm == "PM" && hour == 12
         return 12;
-      elsif time[:am_pm] == "PM"
-        return time[:hour] + 12
+      elsif am_pm == "PM"
+        return hour + 12
       else
-        return time[:hour]
+        return hour
       end
     end
     
