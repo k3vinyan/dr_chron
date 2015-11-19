@@ -21,3 +21,8 @@
 table{
   text-align:center;
 }
+
+.navbar-link{
+  display:inline;
+  margin:20px;
+}
