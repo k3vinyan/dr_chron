@@ -5,6 +5,7 @@
   <label>Date Of Birth</label><br>
   <%= select_date Date.today, start_year: 1910, end_year: Time.now.year %><br>
   <label>Address</label><br>
+  <%= text_field_tag "address", nil, placeholder: "Address" %><br>
   <%= submit_tag 'create new patient' %>
 <% end %>
 
