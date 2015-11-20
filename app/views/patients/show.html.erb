@@ -1,0 +1,16 @@
+<h1><%= @patient["first_name"] %> <%= @patient["last_name"] %></h1>
+<h3>Patient Profile</h3>
+<img src="<%= @patient['patient_photo'] %>" class="avatar"/>
+
+<ul>
+  <li>Date of Birth: <%= @patient["date_of_birth"] %></li>
+  <li>Gender: <%= @patient["gender"] %></li>
+  <li>Doctor: <%= @patient["doctor"] %></li>
+  <li>Home: <%= @patient["home_phone"] %></li>
+  <li>Cell: <%= @patient["cell_phone"] %></li>
+  <% unless @patient["copay"].blank? %>
+    <li>Copay:
+      $<%= @patient["copay"] %>
+    </li>
+  <% end %>
+</ul>

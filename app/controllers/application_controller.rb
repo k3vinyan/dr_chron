@@ -8,6 +8,13 @@ class ApplicationController < ActionController::Base
     @user || @user = User.where(id: session[:user_id]).first
   end
 
+  def get_patient id
+    swag = HTTParty.get("https://drchrono.com/api/patients/#{params['id']}",
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })
+  end
+
   def get_patients
     patients_data = HTTParty.get('https://drchrono.com/api/patients',
       :headers => {

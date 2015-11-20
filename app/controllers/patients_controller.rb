@@ -20,6 +20,10 @@ class PatientsController < ApplicationController
     @patients = get_patients
   end
 
+  def show
+    @patient = get_patient(params["id"])
+  end
+
   private
     def format_date date
       "#{date['year']}-#{date['month']}-#{date['day']}"
