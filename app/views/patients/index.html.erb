@@ -6,6 +6,14 @@
   <%= select_date Date.today, start_year: 1910, end_year: Time.now.year %><br>
   <label>Address</label><br>
   <%= text_field_tag "address", nil, placeholder: "Address" %><br>
+  <div id="advancedForm" hidden>
+    <label>Emergency Contact Info</label><br>
+    <%= text_field_tag "emergency_contact_name", nil, placeholder: "Contact Name" %><br>
+    <%= text_field_tag "emergency_contact_phone", nil, placeholder: "Contact Phone" %><br>
+    <%= text_field_tag "emergency_contact_relation", nil, placeholder: "Contact Relation" %><br>
+  </div>
+  <button id="advancedFormBtn">Advanced Form</button>
+  <button id="basicFormBtn" hidden>Basic Form</button>
   <%= submit_tag 'create new patient' %>
 <% end %>
 

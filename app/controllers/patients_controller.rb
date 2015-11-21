@@ -1,12 +1,16 @@
 class PatientsController < ApplicationController
   def create
-    response = HTTParty.post("https://drchrono.com/api/patients_summary",
+    response = HTTParty.post("https://drchrono.com/api/patients",
       :body => {
         :first_name => params["first_name"],
         :last_name => params["last_name"],
         :gender => params["gender"],
         :date_of_birth => format_date(params["date"]),
-        :doctor => current_user.doctor_id
+        :doctor => current_user.doctor_id,
+        :address => params["address"],
+        :emergency_contact_name => params["emergency_contact_name"],
+        :emergency_contact_phone => params["emergency_contact_phone"],
+        :emergency_contact_relation => params["emergency_contact_relation"],
       }.to_json,
         :headers => {
           "Content-Type" => "application/json",
