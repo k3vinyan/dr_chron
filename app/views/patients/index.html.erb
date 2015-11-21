@@ -6,11 +6,20 @@
   <%= select_date Date.today, start_year: 1910, end_year: Time.now.year %><br>
   <label>Address</label><br>
   <%= text_field_tag "address", nil, placeholder: "Address" %><br>
+  <%= text_field_tag "city", nil, placeholder: "City" %><br>
+  <%= select_tag "state", options_for_select(us_states) %><br>
+  <%= text_field_tag "zip_code", nil, placeholder: "Zip Code" %><br>
   <div id="advancedForm" hidden>
     <label>Emergency Contact Info</label><br>
     <%= text_field_tag "emergency_contact_name", nil, placeholder: "Contact Name" %><br>
     <%= text_field_tag "emergency_contact_phone", nil, placeholder: "Contact Phone" %><br>
     <%= text_field_tag "emergency_contact_relation", nil, placeholder: "Contact Relation" %><br>
+    <label>Employer Info</label><br>
+    <%= text_field_tag "employer", nil, placeholder: "Employer" %><br>
+    <%= text_field_tag "employer_address", nil, placeholder: "Address" %><br>
+    <%= text_field_tag "employer_city", nil, placeholder: "City" %><br>
+    <%= select_tag "employer_state", options_for_select(us_states) %><br>
+    <%= text_field_tag "employer_zip_code", nil, placeholder: "Zip Code" %><br> 
   </div>
   <button id="advancedFormBtn">Advanced Form</button>
   <button id="basicFormBtn" hidden>Basic Form</button>
