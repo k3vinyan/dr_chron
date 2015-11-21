@@ -1,9 +1,9 @@
-<%= form_tag '/patients', :method => method do %>
-  <%= text_field_tag 'first_name', patient["first_name"], placeholder: 'first name', required: true %><br>
-  <%= text_field_tag 'last_name', patient["last_name"], placeholder: 'last name' %><br>
-  <%= select_tag 'gender', options_for_select(['Male', 'Female', 'Other'], patient["gender"]) %><br>
+<%= form_tag "/patients/#{patient["id"]}", :method => method do %>
+  <%= text_field_tag "first_name", patient["first_name"], placeholder: "first name", required: true %><br>
+  <%= text_field_tag "last_name", patient["last_name"], placeholder: "last name" %><br>
+  <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]) %><br>
   <label>Date Of Birth</label><br>
-  <% dob = @patient["date_of_birth"].blank? ? Date.today : @patient["date_of_birth"] %>
+  <% dob = patient["date_of_birth"].blank? ? Date.today : patient["date_of_birth"] %>
   <% year, month, day = dob.split("-").map(&:to_i) %>
   <%= select_date Date.new(year, month, day), start_year: 1910, end_year: Time.now.year %><br>
   <label>Address</label><br>
@@ -24,12 +24,12 @@
     <%= text_field_tag "employer_address", patient["employer_address"], placeholder: "Address" %><br>
     <%= text_field_tag "employer_city", patient["employer_city"], placeholder: "City" %><br>
     <%= select_tag "employer_state", options_for_select(us_states, patient["employer_state"]) %><br>
-    <%= text_field_tag "employer_zip_code", patient["eployer_zip_code"], placeholder: "Zip Code" %><br> 
+    <%= text_field_tag "employer_zip_code", patient["employer_zip_code"], placeholder: "Zip Code" %><br>
   </div>
   <button id="advancedFormBtn">Advanced Form</button>
   <button id="basicFormBtn" hidden>Basic Form</button>
   <% if method == :post %>
-    <%= submit_tag 'Create New Patient' %>
+    <%= submit_tag "Create New Patient" %>
   <% else %>
     <%= submit_tag "Update Patient Info" %>
   <% end %>
