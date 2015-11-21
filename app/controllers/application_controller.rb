@@ -22,4 +22,32 @@ class ApplicationController < ActionController::Base
     })
     patients_data["results"]
   end
+
+  def get_appointments patient_id=nil
+    query = patient_id ? "&patient=#{patient_id}" : ""
+    appointments = HTTParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}#{query}",
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })["results"]
+  end
+
+  def get_offices
+    offices = HTTParty.get("https://drchrono.com/api/offices",
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })["results"]
+
+    {
+      "offices" => offices,
+      "office_names" => offices.map {|office| "#{office['name']} : #{office['id']}"},
+      "exam_rooms" => offices[0]["exam_rooms"].map{|room| room["index"]}
+    }
+  end
+
+  def date_range
+    # possibly turn this into a slider UI
+    start = Time.now.to_s.split(" ")[0]
+    stop = (Time.now + 189 * 86400).to_s.split(" ")[0]
+    "#{start}/#{stop}"
+  end
 end

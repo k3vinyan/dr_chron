@@ -1,31 +1,24 @@
 <% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
 
-<%= form_tag "/appointments", id: "newAppointment" do %>
-  <%= hidden_field_tag "patient_id", nil, value: params["patient_id"] %>
-  <%= select_tag "patient", options_for_select(patient_names) %>
-  <%= select_date Time.now, order: [:month, :day] %>
-  <div id="timeSelect">
-    <%= select_tag "hour", options_for_select((1..12).to_a) %>
-    <%= select_tag "minute", options_for_select(["00","15","30","45"]) %>
-    <%= select_tag "am_pm", options_for_select(["AM","PM"]) %>
-  </div>
-  <%= number_field_tag "duration", nil, placeholder: "duration" %>
-  <%= select_tag "office", options_for_select(@office_names) %>
-  <%= select_tag "exam_room", options_for_select(@exam_rooms) %>
-  <%= text_area_tag "reason", nil, placeholder: "Reason" %>
-  <%= submit_tag "Schedule" %>
-<% end %>
+<%= render partial: "appointment_form",
+  locals: {offices: @office_data, patient: nil, names: patient_names} %>
 
 <table>
   <% @appointments.each do |appointment| %>
     <tr>
+      <th>Photo</th>
       <th>Patient</th>
       <th>Reason</th>
       <th>When</th>
       <th>Duration</th>
       <th>Office</th>
       <th>Room</th>
+    </tr>
     <tr>
-    <tr><%= render partial: 'appointment', locals: {appointment: appointment} %></tr>
+      <td><img src="<%= appointment["patient_info"]["patient_photo"] %>" class="avatar" /></td>
+      <td><%= appointment["patient_info"]["first_name"] %></td>
+      <%= render partial: 'appointment',
+        locals: {appointment: appointment, patient: appointment["patient_info"]} %>
+    </tr>
   <% end %>
 </table>

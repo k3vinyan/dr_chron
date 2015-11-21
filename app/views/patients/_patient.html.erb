@@ -2,14 +2,5 @@
   <td><img class="avatar" src="<%= patient['patient_photo'] %>"/></td>
   <td><%= link_to patient['chart_id'], patient_path(patient['id']) %></td>
   <td><%= patient['first_name'] %> <%= patient['last_name'] %></td>
-  <td><%= patient['date_of_birth'] %></td>
-  <td><%= patient['gender'] %></td>
   <td><%= patient['date_of_last_appointment'] %></td>
-  <td>
-    <% if patient['date_of_next_appointment'].blank? %>
-      <%= link_to 'Schedule Appt', new_appointment_path(:patient_id => patient['id']) %>
-    <% else %>
-      <%= patient['date_of_next_appointment'] %>
-    <% end %>
- </td>
 </tr>

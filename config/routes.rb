@@ -7,8 +7,11 @@ Rails.application.routes.draw do
   # session
   delete 'signout' => 'auth#signout'
 
-  # crud
+  # patients
   resources :patients, only: [:create, :index, :update, :show]
+  post 'patients/search' => 'patients#search'
+
+  # appointments
   resources :appointments, only: [:index, :destroy, :new, :create]
 
   # misc

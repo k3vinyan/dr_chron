@@ -3,6 +3,14 @@ module ApplicationHelper
     @user || @user = User.where(id: session[:user_id]).first
   end
 
+  def get_patients
+    patients_data = HTTParty.get('https://drchrono.com/api/patients',
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })
+    patients_data["results"]
+  end
+
   def formatted_time
     Time.now.in_time_zone("Pacific Time (US & Canada)")
   end

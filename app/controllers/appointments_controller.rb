@@ -7,10 +7,7 @@ class AppointmentsController < ApplicationController
       appt["patient_info"] = @patients.find {|patient| patient["id"] == appt["patient"]}
     end
 
-    office_data = get_offices
-    @offices = office_data["offices"]
-    @office_names = office_data["office_names"]
-    @exam_rooms = office_data["exam_rooms"]
+    @office_data = get_offices
   end
 
   def new
@@ -59,26 +56,6 @@ class AppointmentsController < ApplicationController
   end
 
   private
-    def get_appointments
-      appointments = HTTParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}",
-        :headers => {
-          "Authorization" => "Bearer #{current_user.access_token}",
-      })["results"]
-    end
-
-    def get_offices
-      offices = HTTParty.get("https://drchrono.com/api/offices",
-        :headers => {
-          "Authorization" => "Bearer #{current_user.access_token}",
-      })["results"]
-      
-      {
-        "offices" => offices,
-        "office_names" => offices.map {|office| "#{office['name']} : #{office['id']}"},
-        "exam_rooms" => offices[0]["exam_rooms"].map{|room| room["index"]}
-      }
-    end
-
     def format_date date, hour, minute 
       hour = hour.to_s.length < 2 ? "0" + hour.to_s : hour.to_s
       stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
@@ -96,11 +73,4 @@ class AppointmentsController < ApplicationController
       end
     end
     
-      
-    def date_range
-      # possibly turn this into a slider UI
-      start = Time.now.to_s.split(" ")[0]
-      stop = (Time.now + 189 * 86400).to_s.split(" ")[0]
-      "#{start}/#{stop}"
-    end
 end

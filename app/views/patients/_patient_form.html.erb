@@ -1,16 +1,22 @@
 <%= form_tag "/patients/#{patient["id"]}", :method => method do %>
   <%= text_field_tag "first_name", patient["first_name"], placeholder: "first name", required: true %><br>
-  <%= text_field_tag "last_name", patient["last_name"], placeholder: "last name" %><br>
+  <%= text_field_tag "last_name", patient["last_name"], placeholder: "last name", required: true %><br>
   <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]) %><br>
   <label>Date Of Birth</label><br>
-  <% dob = patient["date_of_birth"].blank? ? Date.today : patient["date_of_birth"] %>
-  <% year, month, day = dob.split("-").map(&:to_i) %>
-  <%= select_date Date.new(year, month, day), start_year: 1910, end_year: Time.now.year %><br>
+  <% if patient["date_of_birth"].blank? %>
+    <% # subtract 30 years %>
+    <% date = Date.today %>
+  <% else %>
+    <% year, month, day = patient["date_of_birth"].split("-").map(&:to_i) %>
+    <% date = Date.new(year, month, day) %>
+  <% end %>
+  <%= select_date date, start_year: 1910, end_year: Time.now.year %><br>
   <label>Address</label><br>
   <%= text_field_tag "address", patient["address"], placeholder: "Address" %><br>
   <%= text_field_tag "city", patient["city"], placeholder: "City" %><br>
   <%= select_tag "state", options_for_select(us_states, patient["state"]) %><br>
-  <%= text_field_tag "zip_code", patient["zip_code"], placeholder: "Zip Code" %><br>
+  <%= number_field_tag "copay", patient["copay"], placeholder: "Copay" %><br>
+  <%= text_field_tag "zip_code", patient["zip_code"], placeholder: "Zip Code", required: true %><br>
   <div id="advancedForm" hidden>
     <label>Patient Contact Info</label><br>
     <%= text_field_tag "home_phone", patient["home_phone"], placeholder: "Home" %><br>
@@ -31,6 +37,6 @@
   <% if method == :post %>
     <%= submit_tag "Create New Patient" %>
   <% else %>
-    <%= submit_tag "Update Patient Info" %>
+    <%= submit_tag "Submit" %>
   <% end %>
 <% end %>

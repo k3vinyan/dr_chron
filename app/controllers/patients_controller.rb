@@ -10,12 +10,19 @@ class PatientsController < ApplicationController
     redirect_to patients_path
   end
 
+  def search
+    fail
+  end
+
   def index
     @patients = get_patients
   end
 
   def show
     @patient = get_patient(params["id"])
+    @patient["appointments"] = get_appointments(@patient["id"])
+
+    @office_data = get_offices
   end
 
   def update
@@ -25,7 +32,6 @@ class PatientsController < ApplicationController
         "Content-Type" => "application/json",
         "Authorization" => "Bearer #{current_user.access_token}",
     })
-
     redirect_to patient_path(params["id"])
   end
 
@@ -44,6 +50,7 @@ class PatientsController < ApplicationController
         :address => params["address"],
         :city => params["city"],
         :state => params["state"],
+        :copay => params["copay"],
         :zip_code => params["zip_code"],
         :home_phone => params["home_phone"],
         :cell_phone => params["cell_phone"],

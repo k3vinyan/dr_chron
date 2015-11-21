@@ -1,13 +1,17 @@
+<%= form_tag "/patients/search/" do %>
+  <%= text_field_tag "patient_name", nil, placeholder: "Patient Name" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
 <%= render partial: "patient_form", locals: {method: :post, patient: {}} %>
 
 <table>
-  <th>Avatar</th>
-  <th>Chart ID</th>
-  <th>Name</th>
-  <th>D.O.B.</th>
-  <th>Gender</th>
-  <th>Last Appt.</th>
-  <th>Next Appt.</th>
+  <tr>
+    <th>Avatar</th>
+    <th>Chart ID</th>
+    <th>Name</th>
+    <th>Last Appt.</th>
+  </tr>
   <% @patients.each do |patient| %>
     <%= render partial: 'patient', locals: {patient: patient} %>
   <% end %>

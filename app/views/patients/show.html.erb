@@ -1,6 +1,6 @@
 <h1><%= @patient["first_name"] %> <%= @patient["last_name"] %></h1>
-<h3>Patient Profile</h3>
 <img src="<%= @patient["patient_photo"] %>" class="avatar"/>
+<h3>Patient Profile</h3>
 
 <ul>
   <li>Date of Birth: <%= @patient["date_of_birth"] %></li>
@@ -11,14 +11,37 @@
   <li>Address: <%= @patient["address"] %></li>
   <li>City: <%= @patient["city"] %></li>
   <li>State: <%= @patient["state"] %></li>
-  <% unless @patient["copay"].blank? %>
-    <li>Copay: $<%= @patient["copay"] %></li>
-  <% end %>
+  <li>Copay: $<%= @patient["copay"] %></li>
   <li>Emergency Contact: <%= @patient["emergency_contact_name"] %></li>
+  <li>Emergency Contact Phone: <%= @patient["emergency_contact_phone"] %></li>
+  <li>Emergency Contact Relation: <%= @patient["emergency_contact_relation"] %></li>
+  <li>Employer: <%= @patient["employer"] %></li>
+  <li>Employer Address: <%= @patient["employer_address"] %></li>
+  <li>Employer City: <%= @patient["employer_city"] %></li>
+  <li>Employer State: <%= @patient["employer_state"] %></li>
+  <li>Employer Zip Code <%= @patient["employer_zip_code"] %></li>
 </ul>
-
 
 <button id="showPatientUpdate">Update Patient Info</button>
 <div id="patientUpdate" hidden>
   <%= render partial: "patient_form", locals: {method: :patch, patient: @patient} %>
 </div>
+
+<h3>Appointments</h3>
+<%= render partial: "appointments/appointment_form",
+  locals: {offices: @office_data, patient: @patient, names: nil} %>
+
+<% unless @patient["appointments"].blank? %>
+  <table>
+    <% @patient["appointments"].each do |appointment| %>
+      <tr>
+        <th>Reason</th>
+        <th>When</th>
+        <th>Duration</th>
+        <th>Office</th>
+        <th>Room</th>
+      </tr>
+      <tr><%= render partial: "appointments/appointment", locals: {appointment: appointment, patient: @patient} %></tr>
+    <% end %>
+  </table>
+<% end %>
