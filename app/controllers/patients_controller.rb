@@ -11,6 +11,8 @@ class PatientsController < ApplicationController
         :city => params["city"],
         :state => params["state"],
         :zip_code => params["zip_code"],
+        :home_phone => params["home_phone"],
+        :cell_phone => params["cell_phone"],
         :emergency_contact_name => params["emergency_contact_name"],
         :emergency_contact_phone => params["emergency_contact_phone"],
         :emergency_contact_relation => params["emergency_contact_relation"],

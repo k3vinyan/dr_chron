@@ -19,28 +19,6 @@
 
 
 <button id="showPatientUpdate">Update Patient Info</button>
-<%= form_tag patient_path(@patient["id"]), :id => "patientUpdate", :hidden => true, :method => :patch do %>
-  <label>Name</label><br>
-  <%= text_field_tag "first_name", @patient["first_name"], placeholder: "first name", required: true %>
-  <%= text_field_tag "last_name", @patient["last_name"], placeholder: "last name" %><br>
-
-  <label>Gender</label><br>
-  <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], @patient["gender"]) %><br>
-
-  <label>Date Of Birth</label><br>
-  <% dob = @patient["date_of_birth"].blank? ? Date.today : @patient["date_of_birth"] %>
-  <% year, month, day = dob.split("-").map(&:to_i) %>
-  <%= select_date Date.new(year, month, day), start_year: 1910, end_year: Time.now.year %><br>
-
-  <label>Address</label><br>
-  <%= text_field_tag "address", @patient["address"], placeholder: "Address" %><br>
-  <label>City</label><br>
-  <%= text_field_tag "city", @patient["city"], placeholder: "City" %><br>
-  <label>State</label><br>
-  <% patient_state = us_states.find {|state| state[1] == @patient["state"]} %>
-  <%= select_tag "state", options_for_select(us_states, patient_state) %><br>
-
-  <label>Copay</label><br>
-  <%= number_field_tag "copay", @patient["copay"] %><br>
-  <%= submit_tag "Update Patient Info" %>
-<% end %>
+<div id="patientUpdate" hidden>
+  <%= render partial: "patient_form", locals: {method: :patch, patient: @patient} %>
+</div>
