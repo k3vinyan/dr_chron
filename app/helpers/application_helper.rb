@@ -23,6 +23,7 @@ module ApplicationHelper
 
   def twenty_four_time time
     hour, minute = time.split(":").map(&:to_i)
+    minute = "0" + minute.to_s if minute.to_s.length < 2
     if hour == 0
       "12:#{minute} AM"
     elsif hour == 12
