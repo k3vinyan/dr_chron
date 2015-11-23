@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
   def create
-    response = HTTParty.post("https://drchrono.com/api/patients",
+    response = HTTMultiParty.post("https://drchrono.com/api/patients",
       :body => patient_params.to_json,
       :headers => {
         "Content-Type" => "application/json",
@@ -48,7 +48,7 @@ class PatientsController < ApplicationController
   end
 
   def update
-    response = HTTParty.patch("https://drchrono.com/api/patients/#{params['id']}",
+    response = HTTMultiParty.put("https://drchrono.com/api/patients/#{params['id']}",
       :body => patient_params.to_json,
       :headers => {
         "Content-Type" => "application/json",

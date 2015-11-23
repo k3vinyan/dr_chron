@@ -171,7 +171,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   dotenv-rails
   httmultiparty
-  httparty
   jbuilder (~> 2.0)
   jquery-rails
   pg

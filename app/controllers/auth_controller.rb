@@ -21,7 +21,7 @@ class AuthController < ApplicationController
 
   private
     def post_token_code
-      HTTParty.post('https://drchrono.com/o/token/',
+      HTTMultiParty.post('https://drchrono.com/o/token/',
         :body => {
           :code             => params[:code],
           :grant_type       => 'authorization_code',
@@ -32,7 +32,7 @@ class AuthController < ApplicationController
     end
 
     def get_auth_token access_token
-      HTTParty.get('https://drchrono.com/api/users/current',
+      HTTMultiParty.get('https://drchrono.com/api/users/current',
         :headers => {
           'Authorization' => "Bearer #{access_token}",
       })

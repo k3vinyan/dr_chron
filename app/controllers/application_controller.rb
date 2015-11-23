@@ -9,14 +9,14 @@ class ApplicationController < ActionController::Base
   end
 
   def get_patient id
-    swag = HTTParty.get("https://drchrono.com/api/patients/#{params['id']}",
+    swag = HTTMultiParty.get("https://drchrono.com/api/patients/#{params['id']}",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
   end
 
   def get_patients
-    patients_data = HTTParty.get('https://drchrono.com/api/patients',
+    patients_data = HTTMultiParty.get('https://drchrono.com/api/patients',
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
@@ -25,14 +25,14 @@ class ApplicationController < ActionController::Base
 
   def get_appointments patient_id=nil
     query = patient_id ? "&patient=#{patient_id}" : ""
-    appointments = HTTParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}#{query}",
+    appointments = HTTMultiParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}#{query}",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })["results"]
   end
 
   def get_offices
-    offices = HTTParty.get("https://drchrono.com/api/offices",
+    offices = HTTMultiParty.get("https://drchrono.com/api/offices",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })["results"]

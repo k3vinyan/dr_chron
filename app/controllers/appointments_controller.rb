@@ -30,7 +30,7 @@ class AppointmentsController < ApplicationController
     time = twenty_four_time(params["hour"].to_i, params["am_pm"])
     date = format_date(params["date"], time, params["minute"])
 
-    response = HTTParty.post("https://drchrono.com/api/appointments",
+    response = HTTMultiParty.post("https://drchrono.com/api/appointments",
       :body => {
         :doctor => current_user.doctor_id,
         :duration => params["duration"],
@@ -48,7 +48,7 @@ class AppointmentsController < ApplicationController
   end
 
   def destroy
-    response = HTTParty.delete("https://drchrono.com/api/appointments/#{params[:id]}",
+    response = HTTMultiParty.delete("https://drchrono.com/api/appointments/#{params[:id]}",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
