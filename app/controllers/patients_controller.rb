@@ -32,6 +32,8 @@ class PatientsController < ApplicationController
         "Content-Type" => "application/json",
         "Authorization" => "Bearer #{current_user.access_token}",
     })
+
+    redirect_to patient_path(params["patient_id_photo"])
   end
 
   def index
@@ -52,6 +54,8 @@ class PatientsController < ApplicationController
         "Content-Type" => "application/json",
         "Authorization" => "Bearer #{current_user.access_token}",
     })
+
+    fail
     redirect_to patient_path(params["id"])
   end
 

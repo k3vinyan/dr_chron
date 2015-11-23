@@ -7,12 +7,10 @@
       <%= select_tag "patient", options_for_select(names) %>
     <% end %>
     <%= select_date Time.now, order: [:month, :day] %>
-    <div id="timeSelect">
-      <%= select_tag "hour", options_for_select((1..12).to_a) %>
-      <%= select_tag "minute", options_for_select(["00","15","30","45"]) %>
-      <%= select_tag "am_pm", options_for_select(["AM","PM"]) %>
-    </div>
-    <%= number_field_tag "duration", nil, placeholder: "duration" %>
+    <%= select_tag "hour", options_for_select((1..12).to_a) %>
+    <%= select_tag "minute", options_for_select(["00","15","30","45"]) %>
+    <%= select_tag "am_pm", options_for_select(["AM","PM"]) %>
+    <%= select_tag "duration", options_for_select([15, 20, 25, 30, 35, 40, 45, 50, 55, 60]) %>
     <%= select_tag "office", options_for_select(offices["office_names"]) %>
     <%= select_tag "exam_room", options_for_select(offices["exam_rooms"]) %>
     <%= text_area_tag "reason", nil, placeholder: "Reason" %>

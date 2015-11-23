@@ -3,6 +3,11 @@ $("#showPatientUpdate").on("click", function (event) {
   $("#patientUpdate").show();
 });
 
+$("#showChangePhoto").on("click", function (event) {
+  $(event.target).hide();
+  $("#changePhoto").show();
+});
+
 $("#advancedFormBtn").on("click", function (event) {
   event.preventDefault();
   $(event.target).hide();

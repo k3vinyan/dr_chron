@@ -22,6 +22,11 @@
   <li>Employer Zip Code <%= @patient["employer_zip_code"] %></li>
 </ul>
 
+<button id="showChangePhoto">Change Photo</button>
+<div id="changePhoto" hidden>
+  <%= render partial: "photo_form", locals: {patient: @patient} %>
+</div>
+
 <button id="showPatientUpdate">Update Patient Info</button>
 <div id="patientUpdate" hidden>
   <%= render partial: "patient_form", locals: {method: :patch, patient: @patient} %>
