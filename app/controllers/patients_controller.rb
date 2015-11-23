@@ -1,17 +1,37 @@
 class PatientsController < ApplicationController
   def create
     response = HTTParty.post("https://drchrono.com/api/patients",
-      :body => patient_params,
+      :body => patient_params.to_json,
       :headers => {
         "Content-Type" => "application/json",
         "Authorization" => "Bearer #{current_user.access_token}",
     })
 
-    redirect_to patients_path
+    if request.xhr?
+      # required fields to upload photo via #patch
+      render json: {
+        id: response["id"],
+        gender: response["gender"],
+        date_of_birth: response["date_of_birth"]
+      }
+    else
+      redirect_to patients_path
+    end
   end
 
-  def search
-    fail
+  def upload_photo
+    response = HTTMultiParty.put("https://drchrono.com/api/patients/#{params['patient_id_photo']}",
+      :body => {
+        :id => params["patient_id_photo"],
+        :gender => params["gender_photo"],
+        :date_of_birth => params["dob_photo"],
+        :doctor => current_user.doctor_id,
+        :patient_photo => params["patient_photo"]
+      },
+      :headers => {
+        "Content-Type" => "application/json",
+        "Authorization" => "Bearer #{current_user.access_token}",
+    })
   end
 
   def index
@@ -27,7 +47,7 @@ class PatientsController < ApplicationController
 
   def update
     response = HTTParty.patch("https://drchrono.com/api/patients/#{params['id']}",
-      :body => patient_params,
+      :body => patient_params.to_json,
       :headers => {
         "Content-Type" => "application/json",
         "Authorization" => "Bearer #{current_user.access_token}",
@@ -62,6 +82,6 @@ class PatientsController < ApplicationController
         :employer_city => params["employer_city"],
         :employer_state => params["employer_state"],
         :employer_zip_code => params["employer_zip_code"],
-      }.to_json
+      }
     end
 end

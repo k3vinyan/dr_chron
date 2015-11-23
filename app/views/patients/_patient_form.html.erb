@@ -1,4 +1,13 @@
-<%= form_tag "/patients/#{patient["id"]}", :method => method do %>
+<%= form_tag "/patients/upload_photo", :id => "photoForm", multipart: true do %>
+  <label>Photo</label><br>
+  <%= hidden_field_tag "patient_id_photo", nil %>
+  <%= hidden_field_tag "gender_photo", nil %>
+  <%= hidden_field_tag "dob_photo", nil %>
+  <%= file_field_tag 'patient_photo' %>
+<% end %>
+
+<%= form_tag "/patients/#{patient["id"]}", :id => "patientForm", :method => method do %>
+  <label>Name</label><br>
   <%= text_field_tag "first_name", patient["first_name"], placeholder: "first name", required: true %><br>
   <%= text_field_tag "last_name", patient["last_name"], placeholder: "last name", required: true %><br>
   <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]) %><br>

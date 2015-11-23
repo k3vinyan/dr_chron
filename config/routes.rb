@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   # patients
   resources :patients, only: [:create, :index, :update, :show]
-  post 'patients/search' => 'patients#search'
+  post 'patients/upload_photo' => 'patients#upload_photo'
 
   # appointments
   resources :appointments, only: [:index, :destroy, :new, :create]
