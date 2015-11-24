@@ -52,7 +52,7 @@
               <% year, month, day = patient["date_of_birth"].split("-").map(&:to_i) %>
               <% date = Date.new(year, month, day) %>
             <% end %>
-            <%= select_date date, start_year: 1910, end_year: Time.now.year, class: "form-control" %>
+            <%= select_date date, start_year: Time.now.year, end_year: 1910, class: "form-control" %>
           </fieldset> 
           <fieldset class="form-group">
             <label for="address">Address</label>
