@@ -1,43 +1,86 @@
-<%= form_tag "/patients/#{patient["id"]}", :id => "patientForm", :method => method do %>
-  <label>Name</label><br>
-  <%= text_field_tag "first_name", patient["first_name"], placeholder: "first name", required: true %><br>
-  <%= text_field_tag "last_name", patient["last_name"], placeholder: "last name", required: true %><br>
-  <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]) %><br>
-  <label>Date Of Birth</label><br>
-  <% if patient["date_of_birth"].blank? %>
-    <% # subtract 30 years %>
-    <% date = Date.today %>
-  <% else %>
-    <% year, month, day = patient["date_of_birth"].split("-").map(&:to_i) %>
-    <% date = Date.new(year, month, day) %>
-  <% end %>
-  <%= select_date date, start_year: 1910, end_year: Time.now.year %><br>
-  <label>Address</label><br>
-  <%= text_field_tag "address", patient["address"], placeholder: "Address" %><br>
-  <%= text_field_tag "city", patient["city"], placeholder: "City" %><br>
-  <%= select_tag "state", options_for_select(us_states, patient["state"]) %><br>
-  <%= number_field_tag "copay", patient["copay"], placeholder: "Copay" %><br>
-  <%= text_field_tag "zip_code", patient["zip_code"], placeholder: "Zip Code", required: true %><br>
-  <div id="advancedForm" hidden>
-    <label>Patient Contact Info</label><br>
-    <%= text_field_tag "home_phone", patient["home_phone"], placeholder: "Home" %><br>
-    <%= text_field_tag "cell_phone", patient["cell_phone"], placeholder: "Cell" %><br>
-    <label>Emergency Contact Info</label><br>
-    <%= text_field_tag "emergency_contact_name", patient["emergency_contact_name"], placeholder: "Contact Name" %><br>
-    <%= text_field_tag "emergency_contact_phone", patient["emergency_contact_phone"], placeholder: "Contact Phone" %><br>
-    <%= text_field_tag "emergency_contact_relation", patient["emergency_contact_relation"], placeholder: "Contact Relation" %><br>
-    <label>Employer Info</label><br>
-    <%= text_field_tag "employer", patient["employer"], placeholder: "Employer" %><br>
-    <%= text_field_tag "employer_address", patient["employer_address"], placeholder: "Address" %><br>
-    <%= text_field_tag "employer_city", patient["employer_city"], placeholder: "City" %><br>
-    <%= select_tag "employer_state", options_for_select(us_states, patient["employer_state"]) %><br>
-    <%= text_field_tag "employer_zip_code", patient["employer_zip_code"], placeholder: "Zip Code" %><br>
+<%= form_tag "/patients/#{patient["id"]}", id: "patientForm", class: "col-sm-12", :method => method do %>
+  <fieldset class="form-group">
+    <label for="first_name">Name</label>
+    <%= text_field_tag "first_name", patient["first_name"], placeholder: "First Name", class: "form-control", required: true %>
+  </fieldset>
+  <fieldset class="form-group">
+    <%= text_field_tag "last_name", patient["last_name"], placeholder: "Last Name", class: "form-control", required: true %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="gender">Gender</label>
+    <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]), class: "form-control" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="date">Birthday</label>
+    <% if patient["date_of_birth"].blank? %>
+      <% # subtract 30 years %>
+      <% date = Date.today %>
+    <% else %>
+      <% year, month, day = patient["date_of_birth"].split("-").map(&:to_i) %>
+      <% date = Date.new(year, month, day) %>
+    <% end %>
+    <%= select_date date, start_year: Time.now.year, end_year: 1910, class: "form-control" %>
+  </fieldset> 
+  <fieldset class="form-group">
+    <label for="address">Address</label>
+    <%= text_field_tag "address", patient["address"], class: "form-control", placeholder: "Address" %>
+  </fieldset>
+  <div class="form-group">
+    <%= text_field_tag "city", patient["city"], class: "form-control", placeholder: "City" %>
   </div>
-  <button id="advancedFormBtn">Advanced Form</button>
-  <button id="basicFormBtn" hidden>Basic Form</button>
-  <% if method == :post %>
-    <%= submit_tag "Create New Patient" %>
-  <% else %>
-    <%= submit_tag "Submit" %>
-  <% end %>
+  <div class="form-group">
+    <%= select_tag "state", options_for_select(us_states, patient["state"]), class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= text_field_tag "zip_code", patient["zip_code"], class: "form-control", placeholder: "Zip Code", required: true %>
+  </div>
+  <div class="form-group">
+    <label for="copay">Copay</label>
+    <%= number_field_tag "copay", patient["copay"], class: "form-control", placeholder: "i.e., $20" %>
+  </div>
+
+  <!-- ADVANCED PATIENT FORM -->
+  <div id="advancedForm" hidden>
+    <fieldset class="form-group">
+      <label>Contact Info</label>
+      <%= text_field_tag "home_phone", patient["home_phone"], class: "form-control", placeholder: "Home" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= text_field_tag "cell_phone", patient["cell_phone"], class: "form-control", placeholder: "Cell" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <label>Emergency Contact Info</label>
+      <%= text_field_tag "emergency_contact_name", patient["emergency_contact_name"], class: "form-control", placeholder: "Contact Name" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= text_field_tag "emergency_contact_phone", patient["emergency_contact_phone"], class: "form-control", placeholder: "Contact Phone" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= text_field_tag "emergency_contact_relation", patient["emergency_contact_relation"], class: "form-control", placeholder: "Contact Relation" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <label>Employer Info</label>
+      <%= text_field_tag "employer", patient["employer"], class: "form-control", placeholder: "Employer" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= text_field_tag "employer_address", patient["employer_address"], class: "form-control", placeholder: "Address" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= text_field_tag "employer_city", patient["employer_city"], class: "form-control", placeholder: "City" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= select_tag "employer_state", options_for_select(us_states, patient["employer_state"]), class: "form-control" %>
+    </fieldset>
+    <fieldset class="form-group">
+      <%= text_field_tag "employer_zip_code", patient["employer_zip_code"], class: "form-control", placeholder: "Zip Code" %>
+    </fieldset>
+  </div>
+
+  <div class="form-group">
+    <% if method == :post %>
+      <%= submit_tag "Create", class: "btn" %>
+    <% else %>
+      <%= submit_tag "Update", class: "btn" %>
+    <% end %>
+  </div>
 <% end %>

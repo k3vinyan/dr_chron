@@ -1,10 +1,14 @@
 <%= form_tag "/patients/upload_photo", :id => "photoForm", multipart: true do %>
-  <label>Photo</label><br>
-  <%= hidden_field_tag "patient_id_photo", patient["id"] %>
-  <%= hidden_field_tag "gender_photo", patient["gender"] %>
-  <%= hidden_field_tag "dob_photo", patient["date_of_birth"] %>
-  <%= file_field_tag 'patient_photo' %>
-  <% unless patient.empty? %>
-    <%= submit_tag "Upload" %>
-  <% end %>
+  <fieldset class="form-group">
+    <label for="patient_photo">Photo</label>
+    <%= hidden_field_tag "patient_id_photo", patient["id"] %>
+    <%= hidden_field_tag "gender_photo", patient["gender"] %>
+    <%= hidden_field_tag "dob_photo", patient["date_of_birth"] %>
+    <%= file_field_tag 'patient_photo', class: "form-control-file" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <% unless patient.empty? %>
+      <%= submit_tag "Upload Photo", class: "btn btn-default" %>
+    <% end %>
+  </fieldset>
 <% end %>

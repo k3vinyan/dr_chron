@@ -22,15 +22,9 @@
   <li>Employer Zip Code <%= @patient["employer_zip_code"] %></li>
 </ul>
 
-<button id="showChangePhoto">Change Photo</button>
-<div id="changePhoto" hidden>
-  <%= render partial: "photo_form", locals: {patient: @patient} %>
-</div>
+<a href="#newPhoto" data-toggle="modal" class="btn btn-default">New Photo &#128247;</a>
+<a href="#updatePatient" data-toggle="modal" class="btn btn-default">Edit Patient &#9998;</a>
 
-<button id="showPatientUpdate">Update Patient Info</button>
-<div id="patientUpdate" hidden>
-  <%= render partial: "patient_form", locals: {method: :patch, patient: @patient} %>
-</div>
 
 <h3>Appointments</h3>
 <%= render partial: "appointments/appointment_form",
@@ -50,3 +44,41 @@
     <% end %>
   </table>
 <% end %>
+
+
+
+<!-- photo modal -->
+<div class="modal fade" id="newPhoto" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Patient Photo</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: "photo_form", locals: {patient: @patient} %>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="updatePatient" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Edit Patient Form</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: "patient_form", locals: {patient: @patient, method: :patch} %>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
+        <a href="#" class="btn btn-default" id="basicFormBtn" style="display: none;">Basic Form</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>

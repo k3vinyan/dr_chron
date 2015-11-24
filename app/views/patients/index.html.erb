@@ -13,112 +13,20 @@
 </table>
 
 
-<% patient = {} %>
-
 <div class="modal fade" id="newPatient" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4>New Patient</h4>
+        <h4>New Patient Form</h4>
       </div>
       <div class="modal-body">
-        <%= form_tag "/patients/upload_photo", :id => "photoForm", multipart: true do %>
-          <fieldset class="form-group">
-            <label for="patient_photo">Photo</label>
-            <%= hidden_field_tag "patient_id_photo", patient["id"] %>
-            <%= hidden_field_tag "gender_photo", patient["gender"] %>
-            <%= hidden_field_tag "dob_photo", patient["date_of_birth"] %>
-            <%= file_field_tag 'patient_photo', class: "form-control-file" %>
-          </fieldset>
-        <% end %>
-        <%= form_tag "/patients/#{patient["id"]}", id: "patientForm", class: "col-sm-12", :method => :post do %>
-          <fieldset class="form-group">
-            <label for="first_name">Name</label>
-            <%= text_field_tag "first_name", patient["first_name"], placeholder: "First Name", class: "form-control", required: true %>
-          </fieldset>
-          <fieldset class="form-group">
-            <%= text_field_tag "last_name", patient["last_name"], placeholder: "Last Name", class: "form-control", required: true %>
-          </fieldset>
-          <fieldset class="form-group">
-            <label for="gender">Gender</label>
-            <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]), class: "form-control" %>
-          </fieldset>
-          <fieldset class="form-group">
-            <label for="date">Birthday</label>
-            <% if patient["date_of_birth"].blank? %>
-              <% # subtract 30 years %>
-              <% date = Date.today %>
-            <% else %>
-              <% year, month, day = patient["date_of_birth"].split("-").map(&:to_i) %>
-              <% date = Date.new(year, month, day) %>
-            <% end %>
-            <%= select_date date, start_year: Time.now.year, end_year: 1910, class: "form-control" %>
-          </fieldset> 
-          <fieldset class="form-group">
-            <label for="address">Address</label>
-            <%= text_field_tag "address", patient["address"], class: "form-control", placeholder: "Address" %>
-          </fieldset>
-          <div class="form-group">
-            <%= text_field_tag "city", patient["city"], class: "form-control", placeholder: "City" %>
-          </div>
-          <div class="form-group">
-            <%= select_tag "state", options_for_select(us_states, patient["state"]), class: "form-control" %>
-          </div>
-          <div class="form-group">
-            <%= text_field_tag "zip_code", patient["zip_code"], class: "form-control", placeholder: "Zip Code", required: true %>
-          </div>
-          <div class="form-group">
-            <label for="copay">Copay</label>
-            <%= number_field_tag "copay", patient["copay"], class: "form-control", placeholder: "i.e., $20" %>
-          </div>
-
-          <!-- ADVANCED PATIENT FORM -->
-          <div id="advancedForm" hidden>
-            <fieldset class="form-group">
-              <label>Contact Info</label>
-              <%= text_field_tag "home_phone", patient["home_phone"], class: "form-control", placeholder: "Home" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= text_field_tag "cell_phone", patient["cell_phone"], class: "form-control", placeholder: "Cell" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Emergency Contact Info</label>
-              <%= text_field_tag "emergency_contact_name", patient["emergency_contact_name"], class: "form-control", placeholder: "Contact Name" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= text_field_tag "emergency_contact_phone", patient["emergency_contact_phone"], class: "form-control", placeholder: "Contact Phone" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= text_field_tag "emergency_contact_relation", patient["emergency_contact_relation"], class: "form-control", placeholder: "Contact Relation" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Employer Info</label>
-              <%= text_field_tag "employer", patient["employer"], class: "form-control", placeholder: "Employer" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= text_field_tag "employer_address", patient["employer_address"], class: "form-control", placeholder: "Address" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= text_field_tag "employer_city", patient["employer_city"], class: "form-control", placeholder: "City" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= select_tag "employer_state", options_for_select(us_states, patient["employer_state"]), class: "form-control" %>
-            </fieldset>
-            <fieldset class="form-group">
-              <%= text_field_tag "employer_zip_code", patient["employer_zip_code"], class: "form-control", placeholder: "Zip Code" %>
-            </fieldset>
-          </div>
-
-          <div class="form-group">
-            <%= submit_tag "Create New Patient", class: "btn" %>
-          </div>
-        <% end %>
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
-          <a href="#" class="btn btn-default" id="basicFormBtn" hidden>Basic Form</a>
-          <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-        </div>
+        <%= render partial: "photo_form", locals: {patient: {}} %>
+        <%= render partial: "patient_form", locals: {patient: {}, method: :post} %>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
+        <a href="#" class="btn btn-default" id="basicFormBtn" style="display: none;">Basic Form</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
       </div>
     </div>
   </div>

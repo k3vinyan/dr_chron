@@ -55,7 +55,6 @@ class PatientsController < ApplicationController
         "Authorization" => "Bearer #{current_user.access_token}",
     })
 
-    fail
     redirect_to patient_path(params["id"])
   end
 
