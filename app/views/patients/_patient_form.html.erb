@@ -25,19 +25,19 @@
     <label for="address">Address</label>
     <%= text_field_tag "address", patient["address"], class: "form-control", placeholder: "Address" %>
   </fieldset>
-  <div class="form-group">
+  <fieldset class="form-group">
     <%= text_field_tag "city", patient["city"], class: "form-control", placeholder: "City" %>
-  </div>
-  <div class="form-group">
+  </fieldset>
+  <fieldset class="form-group">
     <%= select_tag "state", options_for_select(us_states, patient["state"]), class: "form-control" %>
-  </div>
-  <div class="form-group">
+  </fieldset>
+  <fieldset class="form-group">
     <%= text_field_tag "zip_code", patient["zip_code"], class: "form-control", placeholder: "Zip Code", required: true %>
-  </div>
-  <div class="form-group">
+  </fieldset>
+  <fieldset class="form-group">
     <label for="copay">Copay</label>
     <%= number_field_tag "copay", patient["copay"], class: "form-control", placeholder: "i.e., $20" %>
-  </div>
+  </fieldset>
 
   <!-- ADVANCED PATIENT FORM -->
   <div id="advancedForm" hidden>
@@ -76,11 +76,11 @@
     </fieldset>
   </div>
 
-  <div class="form-group">
+  <fieldset class="form-group">
     <% if method == :post %>
       <%= submit_tag "Create", class: "btn" %>
     <% else %>
       <%= submit_tag "Update", class: "btn" %>
     <% end %>
-  </div>
+  </fieldset>
 <% end %>
