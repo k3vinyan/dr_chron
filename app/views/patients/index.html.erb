@@ -71,12 +71,53 @@
             <label for="copay">Copay</label>
             <%= number_field_tag "copay", patient["copay"], class: "form-control", placeholder: "i.e., $20" %>
           </div>
+
+          <!-- ADVANCED PATIENT FORM -->
+          <div id="advancedForm" hidden>
+            <fieldset class="form-group">
+              <label>Contact Info</label>
+              <%= text_field_tag "home_phone", patient["home_phone"], class: "form-control", placeholder: "Home" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= text_field_tag "cell_phone", patient["cell_phone"], class: "form-control", placeholder: "Cell" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Emergency Contact Info</label>
+              <%= text_field_tag "emergency_contact_name", patient["emergency_contact_name"], class: "form-control", placeholder: "Contact Name" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= text_field_tag "emergency_contact_phone", patient["emergency_contact_phone"], class: "form-control", placeholder: "Contact Phone" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= text_field_tag "emergency_contact_relation", patient["emergency_contact_relation"], class: "form-control", placeholder: "Contact Relation" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Employer Info</label>
+              <%= text_field_tag "employer", patient["employer"], class: "form-control", placeholder: "Employer" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= text_field_tag "employer_address", patient["employer_address"], class: "form-control", placeholder: "Address" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= text_field_tag "employer_city", patient["employer_city"], class: "form-control", placeholder: "City" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= select_tag "employer_state", options_for_select(us_states, patient["employer_state"]), class: "form-control" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= text_field_tag "employer_zip_code", patient["employer_zip_code"], class: "form-control", placeholder: "Zip Code" %>
+            </fieldset>
+          </div>
+
           <div class="form-group">
             <%= submit_tag "Create New Patient", class: "btn" %>
-          <% end %>
+          </div>
+        <% end %>
         </div>
         <div class="modal-footer">
-          <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+          <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
+          <a href="#" class="btn btn-default" id="basicFormBtn" hidden>Basic Form</a>
+          <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
         </div>
       </div>
     </div>
