@@ -23,24 +23,28 @@
       </div>
       <div class="modal-body">
         <%= form_tag "/patients/upload_photo", :id => "photoForm", multipart: true do %>
-          <div class="form-group">
+          <fieldset class="form-group">
+            <label for="patient_photo">Photo</label>
             <%= hidden_field_tag "patient_id_photo", patient["id"] %>
             <%= hidden_field_tag "gender_photo", patient["gender"] %>
             <%= hidden_field_tag "dob_photo", patient["date_of_birth"] %>
-            <%= file_field_tag 'patient_photo' %>
-          </div>
+            <%= file_field_tag 'patient_photo', class: "form-control-file" %>
+          </fieldset>
         <% end %>
         <%= form_tag "/patients/#{patient["id"]}", id: "patientForm", class: "col-sm-12", :method => :post do %>
-          <div class="form-group">
-            <%= text_field_tag "first_name", patient["first_name"], placeholder: "first name", class: "control", required: true %>
-          </div>
-          <div class="form-group">
-            <%= text_field_tag "last_name", patient["last_name"], placeholder: "last name", class: "control", required: true %>
-          </div>
-          <div class="form-group">
-            <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]), class: "control" %>
-          </div>
-          <div class="form-group">
+          <fieldset class="form-group">
+            <label for="first_name">Name</label>
+            <%= text_field_tag "first_name", patient["first_name"], placeholder: "First Name", class: "form-control", required: true %>
+          </fieldset>
+          <fieldset class="form-group">
+            <%= text_field_tag "last_name", patient["last_name"], placeholder: "Last Name", class: "form-control", required: true %>
+          </fieldset>
+          <fieldset class="form-group">
+            <label for="gender">Gender</label>
+            <%= select_tag "gender", options_for_select(["Male", "Female", "Other"], patient["gender"]), class: "form-control" %>
+          </fieldset>
+          <fieldset class="form-group">
+            <label for="date">Birthday</label>
             <% if patient["date_of_birth"].blank? %>
               <% # subtract 30 years %>
               <% date = Date.today %>
@@ -48,17 +52,27 @@
               <% year, month, day = patient["date_of_birth"].split("-").map(&:to_i) %>
               <% date = Date.new(year, month, day) %>
             <% end %>
-            <%= select_date date, start_year: 1910, end_year: Time.now.year, class: "control" %>
-          </div> 
+            <%= select_date date, start_year: 1910, end_year: Time.now.year, class: "form-control" %>
+          </fieldset> 
+          <fieldset class="form-group">
+            <label for="address">Address</label>
+            <%= text_field_tag "address", patient["address"], class: "form-control", placeholder: "Address" %>
+          </fieldset>
           <div class="form-group">
-            <%= text_field_tag "address", patient["address"], class: "control", placeholder: "Address" %>
-            <%= text_field_tag "city", patient["city"], class: "control", placeholder: "City" %>
-            <%= select_tag "state", options_for_select(us_states, patient["state"]), class: "control" %>
-            <%= number_field_tag "copay", patient["copay"], class: "control", placeholder: "Copay" %>
-            <%= text_field_tag "zip_code", patient["zip_code"], class: "control", placeholder: "Zip Code", required: true %>
+            <%= text_field_tag "city", patient["city"], class: "form-control", placeholder: "City" %>
           </div>
           <div class="form-group">
-            <%= submit_tag "Create New Patient" %>
+            <%= select_tag "state", options_for_select(us_states, patient["state"]), class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= text_field_tag "zip_code", patient["zip_code"], class: "form-control", placeholder: "Zip Code", required: true %>
+          </div>
+          <div class="form-group">
+            <label for="copay">Copay</label>
+            <%= number_field_tag "copay", patient["copay"], class: "form-control", placeholder: "i.e., $20" %>
+          </div>
+          <div class="form-group">
+            <%= submit_tag "Create New Patient", class: "btn" %>
           <% end %>
         </div>
         <div class="modal-footer">
