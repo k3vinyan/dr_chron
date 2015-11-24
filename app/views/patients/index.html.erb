@@ -1,5 +1,4 @@
-<%= render partial: "photo_form", locals: {patient: {}} %>
-<%= render partial: "patient_form", locals: {method: :post, patient: {}} %>
+<a href="#newPatient" data-toggle="modal" class="btn">New Patient &#43;</a>
 
 <table>
   <tr>
@@ -12,3 +11,23 @@
     <%= render partial: 'patient', locals: {patient: patient} %>
   <% end %>
 </table>
+
+
+<div class="modal fade" id="newPatient" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>New Patient Form</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: "photo_form", locals: {patient: {}} %>
+        <%= render partial: "patient_form", locals: {patient: {}, method: :post} %>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
+        <a href="#" class="btn btn-default" id="basicFormBtn" style="display: none;">Basic Form</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>

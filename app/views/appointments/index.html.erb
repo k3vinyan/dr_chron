@@ -1,7 +1,4 @@
-<% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
-
-<%= render partial: "appointment_form",
-  locals: {offices: @office_data, patient: nil, names: patient_names} %>
+<a href="#newAppt" data-toggle="modal" class="btn btn-default">Schedule Appt &#128197;</a>
 
 <table>
   <% @appointments.each do |appointment| %>
@@ -22,3 +19,23 @@
     </tr>
   <% end %>
 </table>
+
+
+<!-- appointment modal -->
+<div class="modal fade" id="newAppt" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Schedule Appointment</h4>
+      </div>
+      <div class="modal-body">
+        <% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
+        <%= render partial: "appointments/appointment_form",
+          locals: {patient: nil, offices: @office_data, names: patient_names} %>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>

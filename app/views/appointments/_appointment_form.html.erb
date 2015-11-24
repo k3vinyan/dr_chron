@@ -1,19 +1,39 @@
-<button id="showNewAppt">BOOK AN APPT!</button>
-<div id="newAppointment" hidden>
-  <%= form_tag "/appointments", id: "newAppointment" do %>
-    <% if patient %>
-      <%= hidden_field_tag "patient_id", nil, value: patient["id"] %>
-    <% else %>
-      <%= select_tag "patient", options_for_select(names) %>
-    <% end %>
-    <%= select_date Time.now, order: [:month, :day] %>
-    <%= select_tag "hour", options_for_select((1..12).to_a) %>
-    <%= select_tag "minute", options_for_select(["00","15","30","45"]) %>
-    <%= select_tag "am_pm", options_for_select(["AM","PM"]) %>
-    <%= select_tag "duration", options_for_select([15, 20, 25, 30, 35, 40, 45, 50, 55, 60]) %>
-    <%= select_tag "office", options_for_select(offices["office_names"]) %>
-    <%= select_tag "exam_room", options_for_select(offices["exam_rooms"]) %>
-    <%= text_area_tag "reason", nil, placeholder: "Reason" %>
-    <%= submit_tag "Schedule" %>
+<%= form_tag "/appointments", id: "newAppointment" do %>
+  <% if patient %>
+    <%= hidden_field_tag "patient_id", nil, value: patient["id"] %>
+  <% else %>
+    <fieldset class="form-group">
+      <label for="patient">Patient</label>
+      <%= select_tag "patient", options_for_select(names), class: "form-control" %>
+    </fieldset>
   <% end %>
-</div>
+  <fieldset class="form-group">
+    <label for="date">Day</label>
+    <%= select_date Time.now, order: [:month, :day], class: "form-control" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="hour">Time</label>
+    <%= select_tag "hour", options_for_select((1..12).to_a), class: "form-control-inline" %>
+    <%= select_tag "minute", options_for_select(["00","15","30","45"]), class: "form-control-inline" %>
+    <%= select_tag "am_pm", options_for_select(["AM","PM"]), class: "form-control-inline" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="duration">Duration <small class="text-muted">(minutes)</small></label>
+    <%= select_tag "duration", options_for_select([15, 20, 25, 30, 35, 40, 45, 50, 55, 60]), class: "form-control" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="office">Office</label>
+    <%= select_tag "office", options_for_select(offices["office_names"]), class: "form-control" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="exam_room">Exam Room</label>
+    <%= select_tag "exam_room", options_for_select(offices["exam_rooms"]), class: "form-control" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="reason">Reason</label>
+    <%= text_area_tag "reason", nil, placeholder: "i.e., Swine Flu!!!! Ahhhh!!!", class: "form-control" %>
+  </fieldset>
+  <fieldset class="form-group">
+    <%= submit_tag "Schedule", class: "btn btn-default" %>
+  </fieldset>
+<% end %>
