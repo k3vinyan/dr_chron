@@ -58,7 +58,7 @@ class AppointmentsController < ApplicationController
   private
     def format_date date, hour, minute 
       hour = hour.to_s.length < 2 ? "0" + hour.to_s : hour.to_s
-      stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
+      "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
     end
 
     def twenty_four_time hour, am_pm
