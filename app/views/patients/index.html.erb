@@ -1,16 +1,20 @@
-<a href="#newPatient" data-toggle="modal" class="btn">New Patient &#43;</a>
+<div class="row col-sm-2 col-sm-offset-5 new-patient">
+  <a href="#newPatient" data-toggle="modal" class="btn btn-default">New Patient &#43;</a>
+</div>
+<br>
 
-<table>
-  <tr>
-    <th>Avatar</th>
-    <th>Chart ID</th>
-    <th>Name</th>
-    <th>Last Appt.</th>
-  </tr>
-  <% @patients.each do |patient| %>
-    <%= render partial: 'patient', locals: {patient: patient} %>
-  <% end %>
-</table>
+<div class="table-responsive col-sm-8 col-lg-8 col-sm-offset-2 col-lg-offset-2">
+  <table class="table table-hover">
+    <tr>
+      <th>Avatar</th>
+      <th>Name</th>
+      <th>Last Appt.</th>
+    </tr>
+    <% @patients.each do |patient| %>
+      <%= render partial: 'patient', locals: {patient: patient} %>
+    <% end %>
+  </table>
+</div>
 
 
 <div class="modal fade" id="newPatient" role="dialog">
