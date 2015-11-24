@@ -27,9 +27,7 @@
 
 
 <h3>Appointments</h3>
-<%= render partial: "appointments/appointment_form",
-  locals: {offices: @office_data, patient: @patient, names: nil} %>
-
+<a href="#newAppt" data-toggle="modal" class="btn btn-default">Schedule Appt &#128197;</a>
 <% unless @patient["appointments"].blank? %>
   <table>
     <% @patient["appointments"].each do |appointment| %>
@@ -64,7 +62,7 @@
   </div>
 </div>
 
-
+<!-- patient modal -->
 <div class="modal fade" id="updatePatient" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -77,6 +75,24 @@
       <div class="modal-footer">
         <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
         <a href="#" class="btn btn-default" id="basicFormBtn" style="display: none;">Basic Form</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- appointment modal -->
+<div class="modal fade" id="newAppt" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Schedule Appointment</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: "appointments/appointment_form",
+          locals: {patient: @patient, offices: @office_data, names: nil} %>
+      </div>
+      <div class="modal-footer">
         <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
       </div>
     </div>
