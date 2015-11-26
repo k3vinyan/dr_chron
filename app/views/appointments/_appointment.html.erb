@@ -1,6 +1,4 @@
 <td><%= appointment["reason"] %></td>
 <td><%= pst_format(appointment["scheduled_time"]) %></td>
 <td><%= appointment["duration"] %></td>
-<td><%= appointment["office"] %></td>
-<td><%= appointment["exam_room"] %></td>
 <td><%= link_to "Cancel", appointment_path(appointment["id"]), :method => :delete %></td>

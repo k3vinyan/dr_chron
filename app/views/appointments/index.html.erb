@@ -1,40 +1,51 @@
-<a href="#newAppt" data-toggle="modal" class="btn btn-default">Schedule Appt &#128197;</a>
+<div class="row ta-c">
+  <a href="#newAppt" data-toggle="modal" class="btn btn-default">Schedule Appt &#128197;</a>
+</div>
 
-<table>
-  <% @appointments.each do |appointment| %>
-    <tr>
-      <th>Photo</th>
-      <th>Patient</th>
-      <th>Reason</th>
-      <th>When</th>
-      <th>Duration</th>
-      <th>Office</th>
-      <th>Room</th>
-    </tr>
-    <tr>
-      <td><img src="<%= appointment["patient_info"]["patient_photo"] %>" class="avatar" /></td>
-      <td><%= appointment["patient_info"]["first_name"] %></td>
-      <%= render partial: 'appointment',
-        locals: {appointment: appointment, patient: appointment["patient_info"]} %>
-    </tr>
-  <% end %>
-</table>
+<hr />
+
+<div class="row">
+  <div class="table-responsive col-sm-offset-1 col-sm-10 col-md-10">
+    <table class="table table-hover">
+      <tr>
+        <th></th>
+        <th>Patient</th>
+        <th>Reason</th>
+        <th>When</th>
+        <th>Duration</th>
+        <!--
+        <th>Office</th>
+        <th>Room</th>
+        -->
+        <th></th>
+      </tr>
+      <% @appointments.each do |appointment| %>
+        <tr>
+          <td class="photo"><img src="<%= appointment["patient_info"]["patient_photo"] %>" class="img-rounded avatar" /></td>
+          <td><%= appointment["patient_info"]["first_name"] %></td>
+          <%= render partial: 'appointment',
+            locals: {appointment: appointment, patient: appointment["patient_info"]} %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
 
 
-<!-- appointment modal -->
-<div class="modal fade" id="newAppt" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Schedule Appointment</h4>
-      </div>
-      <div class="modal-body">
-        <% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
-        <%= render partial: "appointments/appointment_form",
-          locals: {patient: nil, offices: @office_data, names: patient_names} %>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+  <!-- appointment modal -->
+  <div class="modal fade" id="newAppt" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Schedule Appointment</h4>
+        </div>
+        <div class="modal-body">
+          <% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
+          <%= render partial: "appointments/appointment_form",
+            locals: {patient: nil, offices: @office_data, names: patient_names} %>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+        </div>
       </div>
     </div>
   </div>

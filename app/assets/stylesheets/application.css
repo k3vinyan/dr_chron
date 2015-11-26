@@ -16,6 +16,8 @@
 
 .avatar{
   height:100px;
+  width:auto;
+  max-width:100px;
 }
 
 .navbar-nav{
@@ -31,3 +33,12 @@
 .table tbody>tr>td{
   vertical-align:middle;
 }
+
+.table tbody>tr>td.photo{
+  text-align:center; 
+}
+
+.ta-c{
+  text-align:center;
+}
+
