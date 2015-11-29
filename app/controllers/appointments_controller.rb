@@ -10,6 +10,9 @@ class AppointmentsController < ApplicationController
     @office_data = get_offices
   end
 
+  def show
+  end
+
   def new
     office_data = get_offices
     @offices = office_data["offices"]
