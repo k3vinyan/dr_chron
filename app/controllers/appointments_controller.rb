@@ -11,6 +11,8 @@ class AppointmentsController < ApplicationController
   end
 
   def show
+    @appointment = get_appointment(params["id"])
+    @patient = get_patient(@appointment["patient"])
   end
 
   def new
@@ -74,6 +76,13 @@ class AppointmentsController < ApplicationController
       else
         return hour
       end
+    end
+
+    def get_appointment id=nil
+      HTTMultiParty.get("https://drchrono.com/api/appointments/#{id}",
+        :headers => {
+          "Authorization" => "Bearer #{current_user.access_token}",
+      })
     end
     
 end

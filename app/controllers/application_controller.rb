@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_patient id
-    HTTMultiParty.get("https://drchrono.com/api/patients/#{params['id']}",
+    HTTMultiParty.get("https://drchrono.com/api/patients/#{id}",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
