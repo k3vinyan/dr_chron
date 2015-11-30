@@ -10,7 +10,7 @@ class AuthController < ApplicationController
     find_or_create_user(auth_data, user_data)
 
     session[:user_id] = @user.id
-    redirect_to root_path
+    redirect_to appointments_path
   end
 
   def signout
