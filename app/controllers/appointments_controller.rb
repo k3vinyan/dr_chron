@@ -78,7 +78,7 @@ class AppointmentsController < ApplicationController
       end
     end
 
-    def get_appointment id=nil
+    def get_appointment id
       HTTMultiParty.get("https://drchrono.com/api/appointments/#{id}",
         :headers => {
           "Authorization" => "Bearer #{current_user.access_token}",
