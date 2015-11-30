@@ -1,13 +1,32 @@
+<% date = @appointment["scheduled_time"].match(/\d{4}-\d{2}-\d{2}/)[0] %>
+<% time = pst_format(@appointment["scheduled_time"]).gsub(/\d{4}.+/, "") %>
+
 <div class="page-header ta-c">
   <h3>
-    <%= @patient["first_name"] %> <%= @patient["last_name"] %> <small><%= @appointment["reason"] %></small>
+    <%= link_to "#{@patient['first_name']} #{@patient['last_name']}", patient_path(@patient["id"]) %>
+    <small><%= date %> at <%= time %></small>
   </h3>
+</div>
+
+<div class="row ta-c">
+  <img class="avatar img-rounded" src="<%= @patient['patient_photo'] %>" />
+  <hr />
 </div>
 
 <div class="row">
   <ul class="list-group col-sm-5 col-sm-offset-1">
-    <% date = @appointment["scheduled_time"].match(/\d{4}-\d{2}-\d{2}/)[0] %>
-    <% time = pst_format(@appointment["scheduled_time"]).gsub(/\d{4}.+/, "") %>
+    <li class="list-group-item"><strong>Copay</strong>
+      <span class="muted"><%= @patient["copay"] %></span></li>
+    <li class="list-group-item"><strong>Cell Phone</strong>
+      <span class="muted"><%= @patient["cell_phone"] %></span></li>
+    <li class="list-group-item"><strong>Emergency Contact</strong>
+      <span class="muted"><%= @patient["emergency_contact_phone"] %></span></li>
+    <li class="list-group-item"><strong>City</strong>
+      <span class="muted"><%= @patient["city"] %></span></li>
+    <li class="list-group-item"><strong>State</strong>
+      <span class="muted"><%= @patient["state"] %></span></li>
+  </ul>
+  <ul class="list-group col-sm-5">
     <li class="list-group-item"><strong>Date</strong>
       <span class="muted"><%= date %></span></li>
     <li class="list-group-item"><strong>Time</strong> 
@@ -19,7 +38,8 @@
     <li class="list-group-item"><strong>Exam Room</strong>
       <span class="muted"><%= @appointment["exam_room"] %></span></li>
   </ul>
-  <ul class="list-group col-sm-5">
-    <li class="list-group-item"><img src="<%= @patient["patient_photo"] %>" class="avatar img-rounded" /></li>
-  </ul>
+</div>
+
+<div class="row ta-c">
+  <%= link_to "Cancel Appointment", appointment_path(@appointment["id"]), class: "btn btn-danger", :method => :delete %>
 </div>
