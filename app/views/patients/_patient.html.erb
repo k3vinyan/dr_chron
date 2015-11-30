@@ -1,6 +1,5 @@
 <tr>
-  <td><img class="avatar" src="<%= patient['patient_photo'] %>"/></td>
-  <td><%= link_to patient['chart_id'], patient_path(patient['id']) %></td>
-  <td><%= patient['first_name'] %> <%= patient['last_name'] %></td>
+  <td><img class="avatar img-rounded" src="<%= patient['patient_photo'] %>"/></td>
+  <td><%= link_to "#{patient["first_name"]} #{patient["last_name"]}", patient_path(patient["id"]), class: "btn" %></td>
   <td><%= patient['date_of_last_appointment'] %></td>
 </tr>

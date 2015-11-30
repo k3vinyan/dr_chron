@@ -9,23 +9,22 @@ class ApplicationController < ActionController::Base
   end
 
   def get_patient id
-    swag = HTTMultiParty.get("https://drchrono.com/api/patients/#{params['id']}",
+    HTTMultiParty.get("https://drchrono.com/api/patients/#{id}",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
   end
 
   def get_patients
-    patients_data = HTTMultiParty.get('https://drchrono.com/api/patients',
+    HTTMultiParty.get('https://drchrono.com/api/patients',
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
-    })
-    patients_data["results"]
+    })["results"]
   end
 
   def get_appointments patient_id=nil
     query = patient_id ? "&patient=#{patient_id}" : ""
-    appointments = HTTMultiParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}#{query}",
+    HTTMultiParty.get("https://drchrono.com/api/appointments?date_range=#{date_range}#{query}",
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })["results"]

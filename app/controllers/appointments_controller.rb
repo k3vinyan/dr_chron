@@ -10,6 +10,11 @@ class AppointmentsController < ApplicationController
     @office_data = get_offices
   end
 
+  def show
+    @appointment = get_appointment(params["id"])
+    @patient = get_patient(@appointment["patient"])
+  end
+
   def new
     office_data = get_offices
     @offices = office_data["offices"]
@@ -58,7 +63,7 @@ class AppointmentsController < ApplicationController
   private
     def format_date date, hour, minute 
       hour = hour.to_s.length < 2 ? "0" + hour.to_s : hour.to_s
-      stuff = "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
+      "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
     end
 
     def twenty_four_time hour, am_pm
@@ -71,6 +76,13 @@ class AppointmentsController < ApplicationController
       else
         return hour
       end
+    end
+
+    def get_appointment id
+      HTTMultiParty.get("https://drchrono.com/api/appointments/#{id}",
+        :headers => {
+          "Authorization" => "Bearer #{current_user.access_token}",
+      })
     end
     
 end

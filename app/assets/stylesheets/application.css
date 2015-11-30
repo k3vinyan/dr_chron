@@ -16,10 +16,8 @@
 
 .avatar{
   height:100px;
-}
-
-table{
-  text-align:center;
+  width:auto;
+  max-width:100px;
 }
 
 .navbar-nav{
@@ -31,3 +29,16 @@ table{
   float:none;
   display:inline-block;
 }
+
+.table tbody>tr>td{
+  vertical-align:middle;
+}
+
+.table tbody>tr>td.photo{
+  text-align:center; 
+}
+
+.ta-c{
+  text-align:center;
+}
+

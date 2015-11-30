@@ -1,47 +1,86 @@
-<h1><%= @patient["first_name"] %> <%= @patient["last_name"] %></h1>
-<img src="<%= @patient["patient_photo"] %>" class="avatar"/>
-<h3>Patient Profile</h3>
+<div class="row ta-c">
+  <img src="<%= @patient["patient_photo"] %>" class="img-rounded avatar"/>
+</div>
 
-<ul>
-  <li>Date of Birth: <%= @patient["date_of_birth"] %></li>
-  <li>Gender: <%= @patient["gender"] %></li>
-  <li>Doctor: <%= @patient["doctor"] %></li>
-  <li>Home: <%= @patient["home_phone"] %></li>
-  <li>Cell: <%= @patient["cell_phone"] %></li>
-  <li>Address: <%= @patient["address"] %></li>
-  <li>City: <%= @patient["city"] %></li>
-  <li>State: <%= @patient["state"] %></li>
-  <li>Copay: $<%= @patient["copay"] %></li>
-  <li>Emergency Contact: <%= @patient["emergency_contact_name"] %></li>
-  <li>Emergency Contact Phone: <%= @patient["emergency_contact_phone"] %></li>
-  <li>Emergency Contact Relation: <%= @patient["emergency_contact_relation"] %></li>
-  <li>Employer: <%= @patient["employer"] %></li>
-  <li>Employer Address: <%= @patient["employer_address"] %></li>
-  <li>Employer City: <%= @patient["employer_city"] %></li>
-  <li>Employer State: <%= @patient["employer_state"] %></li>
-  <li>Employer Zip Code <%= @patient["employer_zip_code"] %></li>
-</ul>
-
-<a href="#newPhoto" data-toggle="modal" class="btn btn-default">New Photo &#128247;</a>
-<a href="#updatePatient" data-toggle="modal" class="btn btn-default">Edit Patient &#9998;</a>
+<div class="row ta-c">
+  <h3><%= @patient["first_name"] %> <%= @patient["last_name"] %></h3>
+</div>
 
 
-<h3>Appointments</h3>
-<a href="#newAppt" data-toggle="modal" class="btn btn-default">Schedule Appt &#128197;</a>
-<% unless @patient["appointments"].blank? %>
-  <table>
-    <% @patient["appointments"].each do |appointment| %>
-      <tr>
-        <th>Reason</th>
-        <th>When</th>
-        <th>Duration</th>
-        <th>Office</th>
-        <th>Room</th>
-      </tr>
-      <tr><%= render partial: "appointments/appointment", locals: {appointment: appointment, patient: @patient} %></tr>
-    <% end %>
-  </table>
-<% end %>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">Patient Info</a></li>
+      <li role="presentation"><a href="#appointments" aria-controls="appointments" role="tab" data-toggle="tab">Appointments</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="tab-content">
+  <br />
+  <div role="tabpanel" class="tab-pane active" id="info">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 ta-c">
+        <a href="#newPhoto" data-toggle="modal" class="btn btn-default">New Photo &#128247;</a>
+        <a href="#updatePatient" data-toggle="modal" class="btn btn-default">Edit Patient &#9998;</a>
+      </div>
+    </div>
+    <br />
+
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>Date of Birth</strong> <span class="text-muted"><%= @patient["date_of_birth"] %></span></li>
+          <li class="list-group-item"><strong>Gender</strong> <span class="text-muted"><%= @patient["gender"] %></span></li>
+          <li class="list-group-item"><strong>Doctor</strong> <span class="text-muted"><%= @patient["doctor"] %></span></li>
+          <li class="list-group-item"><strong>Home</strong> <span class="text-muted"><%= @patient["home_phone"] %></span></li>
+          <li class="list-group-item"><strong>Cell</strong> <span class="text-muted"><%= @patient["cell_phone"] %></span></li>
+          <li class="list-group-item"><strong>Address</strong> <span class="text-muted"><%= @patient["address"] %></span></li>
+          <li class="list-group-item"><strong>City</strong> <span class="text-muted"><%= @patient["city"] %></span></li>
+          <li class="list-group-item"><strong>State</strong> <span class="text-muted"><%= @patient["state"] %></span></li>
+          <li class="list-group-item"><strong>Copay</strong> <span class="text-muted">$<%= @patient["copay"] %></span></li>
+          <li class="list-group-item"><strong>Emergency Contact</strong> <span class="text-muted"><%= @patient["emergency_contact_name"] %></span></li>
+          <li class="list-group-item"><strong>Emergency Contact Phone</strong> <span class="text-muted"><%= @patient["emergency_contact_phone"] %></span></li>
+          <li class="list-group-item"><strong>Emergency Contact Relation</strong> <span class="text-muted"><%= @patient["emergency_contact_relation"] %></span></li>
+          <li class="list-group-item"><strong>Employer</strong> <span class="text-muted"><%= @patient["employer"] %></span></li>
+          <li class="list-group-item"><strong>Employer Address</strong> <span class="text-muted"><%= @patient["employer_address"] %></span></li>
+          <li class="list-group-item"><strong>Employer City</strong> <span class="text-muted"><%= @patient["employer_city"] %></span></li>
+          <li class="list-group-item"><strong>Employer State</strong> <span class="text-muted"><%= @patient["employer_state"] %></span></li>
+          <li class="list-group-item"><strong>Employer Zip Code</strong> <span class="text-muted"><%= @patient["employer_zip_code"] %></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div role="tabpanel" class="tab-pane" id="appointments">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 ta-c">
+        <a href="#newAppt" data-toggle="modal" class="btn btn-default">Schedule Appt &#128197;</a>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <% unless @patient["appointments"].blank? %>
+          <ul class="list-group">
+            <% @patient["appointments"].each do |appointment| %>
+              <% date = pst_format(appointment["scheduled_time"]).split(" ") %>
+              <% day = date.pop.gsub(/\d{4}-/,"") %>
+              <% time = date.join(" ") %> 
+              <li class="list-group-item">
+                <a href="<%= appointment_path(appointment["id"]) %>">
+                  <strong><%= "#{time} #{day}" %></strong> <span class="text-muted"><%= appointment["reason"] %></span>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
