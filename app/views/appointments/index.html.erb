@@ -17,7 +17,8 @@
       </tr>
       <% @appointments.each do |appointment| %>
         <tr>
-          <td class="photo"><img src="<%= appointment["patient_info"]["patient_photo"] %>" class="img-rounded avatar" /></td>
+          <% image = photo_url_from(appointment["patient_info"]["patient_photo"]) %>
+          <td class="photo"><img src="<%= image %>" class="img-rounded avatar" /></td>
           <td><%= appointment["patient_info"]["first_name"] %></td>
           <%= render partial: 'appointment',
             locals: {appointment: appointment, patient: appointment["patient_info"]} %>
@@ -37,10 +38,10 @@
         <div class="modal-body">
           <% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
           <%= render partial: "appointments/appointment_form",
-            locals: {patient: nil, offices: @office_data, names: patient_names} %>
+            locals: {patient: nil, offices: @office_data, names: patient_names, appointment: {}, method: :post} %>
         </div>
         <div class="modal-footer">
-          <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+          <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
         </div>
       </div>
     </div>

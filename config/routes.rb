@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   post 'patients/upload_photo' => 'patients#upload_photo'
 
   # appointments
-  resources :appointments, only: [:index, :destroy, :new, :create, :show]
+  resources :appointments, only: [:index, :destroy, :create, :show, :update]
 
   # misc
   root 'welcome#index'

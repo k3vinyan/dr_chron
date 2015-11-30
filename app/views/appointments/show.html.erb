@@ -9,7 +9,7 @@
 </div>
 
 <div class="row ta-c">
-  <img class="avatar img-rounded" src="<%= @patient['patient_photo'] %>" />
+  <img class="avatar img-rounded" src="<%= photo_url_from(@patient['patient_photo']) %>" />
   <hr />
 </div>
 
@@ -37,9 +37,31 @@
       <span class="muted"><%= @appointment["office"] %></span></li>
     <li class="list-group-item"><strong>Exam Room</strong>
       <span class="muted"><%= @appointment["exam_room"] %></span></li>
+    <li class="list-group-item"><strong>Reason</strong>
+      <span class="muted"><%= @appointment["reason"] %></span></li>
   </ul>
 </div>
 
 <div class="row ta-c">
+  <a href="#editAppt" data-toggle="modal" class="btn btn-default">Edit Appointment &#128197;</a>
   <%= link_to "Cancel Appointment", appointment_path(@appointment["id"]), class: "btn btn-danger", :method => :delete %>
+</div>
+
+
+<!-- appointment modal -->
+<div class="modal fade" id="editAppt" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Edit Appointment</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: "appointments/appointment_form",
+          locals: {appointment: @appointment, patient: @patient, offices: @office_data, names: nil, method: :patch} %>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
 </div>

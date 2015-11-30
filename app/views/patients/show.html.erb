@@ -1,5 +1,5 @@
 <div class="row ta-c">
-  <img src="<%= @patient["patient_photo"] %>" class="img-rounded avatar"/>
+  <img src="<%= photo_url_from(@patient["patient_photo"]) %>" class="img-rounded avatar"/>
 </div>
 
 <div class="row ta-c">
@@ -95,7 +95,7 @@
         <%= render partial: "photo_form", locals: {patient: @patient} %>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+        <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
       </div>
     </div>
   </div>
@@ -114,7 +114,7 @@
       <div class="modal-footer">
         <a href="#" class="btn btn-default" id="advancedFormBtn">Advanced Form</a>
         <a href="#" class="btn btn-default" id="basicFormBtn" style="display: none;">Basic Form</a>
-        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+        <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
       </div>
     </div>
   </div>
@@ -129,10 +129,10 @@
       </div>
       <div class="modal-body">
         <%= render partial: "appointments/appointment_form",
-          locals: {patient: @patient, offices: @office_data, names: nil} %>
+          locals: {appointment: {}, method: :post, patient: @patient, offices: @office_data, names: nil} %>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+        <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
       </div>
     </div>
   </div>
