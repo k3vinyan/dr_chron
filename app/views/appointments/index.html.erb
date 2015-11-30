@@ -17,7 +17,8 @@
       </tr>
       <% @appointments.each do |appointment| %>
         <tr>
-          <td class="photo"><img src="<%= appointment["patient_info"]["patient_photo"] %>" class="img-rounded avatar" /></td>
+          <% image = photo_url_from(appointment["patient_info"]["patient_photo"]) %>
+          <td class="photo"><img src="<%= image %>" class="img-rounded avatar" /></td>
           <td><%= appointment["patient_info"]["first_name"] %></td>
           <%= render partial: 'appointment',
             locals: {appointment: appointment, patient: appointment["patient_info"]} %>

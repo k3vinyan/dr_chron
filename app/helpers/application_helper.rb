@@ -11,6 +11,10 @@ module ApplicationHelper
     patients_data["results"]
   end
 
+  def photo_url_from link
+    link.blank? ? image_path("no-avatar.jpg") : link
+  end
+
   def formatted_time
     Time.now.in_time_zone("Pacific Time (US & Canada)")
   end

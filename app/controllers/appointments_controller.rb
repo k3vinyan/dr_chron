@@ -15,13 +15,6 @@ class AppointmentsController < ApplicationController
     @patient = get_patient(@appointment["patient"])
   end
 
-  def new
-    office_data = get_offices
-    @offices = office_data["offices"]
-    @office_names = office_data["office_names"]
-    @exam_rooms = office_data["exam_rooms"]
-  end
-
   def create
     # figure out a more efficient way to do this
     if params["patient_id"].blank?
