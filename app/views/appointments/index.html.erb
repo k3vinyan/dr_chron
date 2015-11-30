@@ -38,7 +38,7 @@
         <div class="modal-body">
           <% patient_names = @patients.map {|patient| "#{patient['first_name']} #{patient['last_name']}"} %>
           <%= render partial: "appointments/appointment_form",
-            locals: {patient: nil, offices: @office_data, names: patient_names} %>
+            locals: {patient: nil, offices: @office_data, names: patient_names, appointment: {}, method: :post} %>
         </div>
         <div class="modal-footer">
           <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>

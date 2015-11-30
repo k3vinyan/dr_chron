@@ -13,6 +13,7 @@ class AppointmentsController < ApplicationController
   def show
     @appointment = get_appointment(params["id"])
     @patient = get_patient(@appointment["patient"])
+    @office_data = get_offices
   end
 
   def create
@@ -25,24 +26,24 @@ class AppointmentsController < ApplicationController
       params["patient_id"] = patient["id"]
     end
 
-    time = twenty_four_time(params["hour"].to_i, params["am_pm"])
-    date = format_date(params["date"], time, params["minute"])
-
     response = HTTMultiParty.post("https://drchrono.com/api/appointments",
-      :body => {
-        :doctor => current_user.doctor_id,
-        :duration => params["duration"],
-        :patient => params["patient_id"],
-        :office => params["office"].split(" ")[-1].to_i,
-        :exam_room => params["exam_room"],
-        :reason => params["reason"],
-        :scheduled_time => date
-      },
+      :body => appointment_params,
       :headers => {
         "Authorization" => "Bearer #{current_user.access_token}",
     })
 
     redirect_to appointments_path
+  end
+
+  def update
+    response = HTTMultiParty.put("https://drchrono.com/api/appointments/#{params['id']}",
+      :body => appointment_params,
+      :headers => {
+        "Authorization" => "Bearer #{current_user.access_token}",
+
+    })
+
+    redirect_to appointment_path(params["id"])
   end
 
   def destroy
@@ -54,6 +55,22 @@ class AppointmentsController < ApplicationController
   end
 
   private
+    def appointment_params
+      # use rails utc method
+      time = twenty_four_time(params["hour"].to_i, params["am_pm"])
+      date = format_date(params["date"], time, params["minute"])
+
+      {
+        :doctor => current_user.doctor_id,
+        :duration => params["duration"],
+        :patient => params["patient_id"],
+        :office => params["office"].split(" ")[-1].to_i,
+        :exam_room => params["exam_room"],
+        :reason => params["reason"],
+        :scheduled_time => date
+      }
+    end
+
     def format_date date, hour, minute 
       hour = hour.to_s.length < 2 ? "0" + hour.to_s : hour.to_s
       "#{date['year']}-#{date['month']}-#{date['day']}T#{hour}:#{minute}:00"
