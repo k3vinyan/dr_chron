@@ -1,5 +1,5 @@
 # Dr. Chron
-[Dr. Chron](https://drchrono.herokuapp.com/) is an interface for the Dr.Chrono app that allows doctors to add patients and schedule appointments with ease.  
+[Dr. Chron](https://drchron.herokuapp.com/) is an interface for the Dr.Chrono app that allows doctors to add patients and schedule appointments with ease.  
 
 ![demo](demo.gif)
 
